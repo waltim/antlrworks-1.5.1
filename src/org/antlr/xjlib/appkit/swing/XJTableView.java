@@ -49,11 +49,7 @@ public class XJTableView extends JScrollPane {
     public XJTableView() {
         setViewportView(table);
 
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                autoresizeColumns();
-            }
-        });
+        addComponentListener((ComponentEvent e)->{ autoresizeColumns();});
 
         table.setDefaultRenderer(Object.class, new XJTableAlternateRenderer());
         table.setShowGrid(false);

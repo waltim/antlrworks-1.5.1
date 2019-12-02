@@ -117,14 +117,10 @@ public class DetachablePanel extends JPanel {
         detach.setVerticalAlignment(JButton.CENTER);
         detach.setMargin(new Insets(0, 0, 0, 0));
 
-        detach.addActionListener(al = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(detached)
+        detach.addActionListener(al = (ActionEvent e)->{ if(detached)
                     attach();
                 else
-                    detach();
-            }
-        });
+                    detach();});
         return detach;
     }
 

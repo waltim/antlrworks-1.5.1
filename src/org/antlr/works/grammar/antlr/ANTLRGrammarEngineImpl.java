@@ -312,11 +312,7 @@ public class ANTLRGrammarEngineImpl implements ANTLRGrammarEngine {
         if(SwingUtilities.isEventDispatchThread()) {
             engine.antlrGrammarEngineAnalyzeCompleted();
         } else {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    engine.antlrGrammarEngineAnalyzeCompleted();
-                }
-            });
+            SwingUtilities.invokeAndWait(()-> { engine.antlrGrammarEngineAnalyzeCompleted();});
         }
 
         if(el != null) {

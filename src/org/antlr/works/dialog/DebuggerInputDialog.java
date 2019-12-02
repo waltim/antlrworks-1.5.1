@@ -100,15 +100,11 @@ public class DebuggerInputDialog extends XJDialog {
 
         inputFileField.setText(AWPrefs.getDebuggerInputFile());
 
-        browseInputFileButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                if(XJFileChooser.shared().displayOpenDialog(getContentPane(), false)) {
+        browseInputFileButton.addActionListener((ActionEvent actionEvent)->{ if(XJFileChooser.shared().displayOpenDialog(getContentPane(), false)) {
                     inputFileField.setText(XJFileChooser.shared().getSelectedFilePath());
                     AWPrefs.setDebuggerInputFile(inputFileField.getText());
                     fileInputRadio.setSelected(true);
-                }
-            }
-        });
+                }});
     }
 
     public void dialogWillCloseOK() {

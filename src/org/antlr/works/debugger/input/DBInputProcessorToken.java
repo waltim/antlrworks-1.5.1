@@ -298,18 +298,14 @@ public class DBInputProcessorToken implements DBInputProcessor, TextPaneDelegate
         /** Scroll the text pane to the current token position. Invoke that later on
          * so the pane scrolls at the correct position (otherwise the scroll will be reset).
          */
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
+        SwingUtilities.invokeLater(()-> { try {
                     Rectangle r = textPane.modelToView(currentTokenIndexInText);
                     if(r != null) {
                         textPane.scrollRectToVisible(r);                        
                     }
                 } catch (BadLocationException e) {
                     debuggerTab.getConsole().println(e);
-                }
-            }
-        });
+                }});
     }
 
     public void createTextAttributes() {

@@ -197,11 +197,7 @@ public class InterpreterTab extends GrammarWindowTab implements Runnable, AWTree
         JButton button = new JButton("Guess");
         button.setFocusable(false);
         button.setToolTipText("Find the name of all rules containing an action with channel=99");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                window.findTokensToIgnore(true);
-            }
-        });
+        button.addActionListener((ActionEvent event)->{ window.findTokensToIgnore(true);});
         box.add(Box.createHorizontalGlue());
         box.addElement(button);
 
@@ -278,11 +274,7 @@ public class InterpreterTab extends GrammarWindowTab implements Runnable, AWTree
     }
 
     public void runEnded() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                progress.close();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { progress.close();});
     }
 
     protected void process() {

@@ -129,11 +129,7 @@ public class AWTreePanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconGraph());
         button.setToolTipText("Display as Graph");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                toggleGraph();
-            }
-        });
+        button.addActionListener((ActionEvent event)->{ toggleGraph();});
         return button;
     }
 
@@ -141,11 +137,7 @@ public class AWTreePanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconExpandAll());
         button.setToolTipText("Expand All");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                TreeUtilities.expandAll(tree);
-            }
-        });
+        button.addActionListener((ActionEvent event)->{ TreeUtilities.expandAll(tree);});
         return button;
     }
 
@@ -153,11 +145,7 @@ public class AWTreePanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconCollapseAll());
         button.setToolTipText("Collapse All");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                TreeUtilities.collapseAll(tree);
-            }
-        });
+        button.addActionListener((ActionEvent event)->{ TreeUtilities.collapseAll(tree);});
         return button;
     }
 
@@ -194,11 +182,7 @@ public class AWTreePanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconListTree());
         button.setToolTipText("Display as List");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                toggleGraph();
-            }
-        });
+        button.addActionListener((ActionEvent event)->{ toggleGraph();});
         return button;
     }
 

@@ -61,11 +61,7 @@ public class ConsoleTab extends GrammarWindowTab implements Console {
         Toolbar box = Toolbar.createHorizontalToolbar();
 
         JButton clear = new JButton("Clear All");
-        clear.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                clear();
-            }
-        });
+        clear.addActionListener((ActionEvent e)->{ clear();});
         box.addElement(clear);
         box.add(Box.createHorizontalGlue());
 
@@ -125,11 +121,7 @@ public class ConsoleTab extends GrammarWindowTab implements Console {
 
     public synchronized void print(final String s, final int level) {
         if(!SwingUtilities.isEventDispatchThread()) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    print(s, level);
-                }
-            });
+            SwingUtilities.invokeLater(()-> { print(s, level);});
             return;
         }
         

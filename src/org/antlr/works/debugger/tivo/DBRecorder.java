@@ -450,27 +450,15 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
     }
 
     public void connectionSuccess() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                debuggerTab.connectionSuccess();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { debuggerTab.connectionSuccess();});
     }
 
     public void connectionFailed() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                debuggerTab.connectionFailed();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { debuggerTab.connectionFailed();});
     }
 
     public void connectionCancelled() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                debuggerTab.connectionCancelled();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { debuggerTab.connectionCancelled();});
     }
 
     public synchronized void requestStop() {
@@ -596,11 +584,7 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
                     break;
 
                 case DBEvent.COMMENCE:
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            checkRemoteParserHeaders();
-                        }
-                    });
+                    SwingUtilities.invokeLater(()-> { checkRemoteParserHeaders();});
                     setStoppedOnEvent(DBEvent.COMMENCE);
                     breaksOnEvent(true);
                     break;

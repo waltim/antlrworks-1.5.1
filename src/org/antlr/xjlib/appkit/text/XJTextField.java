@@ -44,11 +44,7 @@ public class XJTextField extends XJControl {
 
     public XJTextField(String defaultString) {
         jTextField = new JTextField(defaultString);
-        jTextField.addFocusListener(new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
-                jTextField.selectAll();
-            }
-        });
+        jTextField.addFocusListener((FocusEvent e)->{ jTextField.selectAll();});
     }
 
     public String getText() {

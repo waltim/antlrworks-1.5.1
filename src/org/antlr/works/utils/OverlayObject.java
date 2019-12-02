@@ -79,12 +79,8 @@ public abstract class OverlayObject {
     }
 
     private void createListeners() {
-        parentFrame.getJavaContainer().addComponentListener(pfcl = new ComponentAdapter() {
-            public void componentHidden(ComponentEvent e) {
-                if(content.isVisible())
-                    content.setVisible(false);
-            }
-        });
+        parentFrame.getJavaContainer().addComponentListener(pfcl = (ComponentEvent e)->{ if(content.isVisible())
+                    content.setVisible(false);});
 
         parentComponent.addComponentListener(pccl = new ComponentAdapter() {
             public void componentMoved(ComponentEvent e) {
@@ -130,11 +126,7 @@ public abstract class OverlayObject {
             return;
 
         parentComponent.getInputMap().put(overlayDisplayKeyStroke(), overlayDisplayKeyStrokeMappingName());
-        parentComponent.getActionMap().put(overlayDisplayKeyStrokeMappingName(), new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                display();
-            }
-        });
+        parentComponent.getActionMap().put(overlayDisplayKeyStrokeMappingName(), (ActionEvent e)->{ display();});
     }
 
     public boolean isOverlayVisibleInParentComponent() {

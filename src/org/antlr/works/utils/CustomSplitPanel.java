@@ -99,9 +99,7 @@ public class CustomSplitPanel extends JPanel {
         moved and the middle panel hidden and then showed again, the left split pane's divider will be screwed up. Maybe
         a bug in my code but don't have time to investigate more. If someone finds the reason, let me know.
         */
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                if(left != null && middle != null && right != null) {
+        SwingUtilities.invokeLater(()-> { if(left != null && middle != null && right != null) {
                     setDividerLocationToComponentWidth(rightSplitPane, getWidth(left)+getWidth(middle));
                     setDividerLocationToComponentWidth(leftSplitPane, getWidth(left));
                 } else if(left != null && middle != null) {
@@ -110,9 +108,7 @@ public class CustomSplitPanel extends JPanel {
                     setDividerLocationToComponentWidth(rightSplitPane, getWidth(left));
                 } else if(middle != null && right != null) {
                     setDividerLocationToComponentWidth(rightSplitPane, getWidth(middle));
-                }
-            }
-        });
+                }});
 
     }
 

@@ -224,9 +224,7 @@ public class NewWizardDialog extends XJDialog {
                     "Combined Grammar"
                 }));
                 grammarTypeComboBox.setSelectedIndex(3);
-                grammarTypeComboBox.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent event) {
-                        switch (grammarTypeComboBox.getSelectedIndex()) {
+                grammarTypeComboBox.addActionListener((ActionEvent event)->{ switch (grammarTypeComboBox.getSelectedIndex()) {
                             case GRAMMAR_TYPE_PARSER:
                             case GRAMMAR_TYPE_TREE_GRAMMAR:
                                 cbIdentifier.setEnabled(false);
@@ -261,9 +259,7 @@ public class NewWizardDialog extends XJDialog {
                                     cbCarriageReturnChar.setEnabled(true);
                                 }
                                 break;
-                        }
-                    }
-                });
+                        }});
                 contentPanel.add(grammarTypeComboBox, cc.xy(5, 3));
 
                 //======== lexicalItemPanel ========
@@ -317,17 +313,13 @@ public class NewWizardDialog extends XJDialog {
                         //---- cbComments ----
                         cbComments.setText("Comments");
                         lexLeftPanel.add(cbComments, cc.xywh(1, 7, 2, 1));
-                        cbComments.addActionListener(new ActionListener(){
-                            public void actionPerformed(ActionEvent event) {
-                                if (cbComments.isSelected()) {
+                        cbComments.addActionListener((ActionEvent event)->{ if (cbComments.isSelected()) {
                                     cbSingleLine.setEnabled(true);
                                     cbMultiLine.setEnabled(true);
                                 } else {
                                     cbSingleLine.setEnabled(false);
                                     cbMultiLine.setEnabled(false);
-                                }
-                            }
-                        });
+                                }});
 
                         //======== commentsPanel ========
                         {
@@ -348,34 +340,26 @@ public class NewWizardDialog extends XJDialog {
                             cbSingleLine.setEnabled(false);
                             cbSingleLine.setSelected(true);
                             commentsPanel.add(cbSingleLine, cc.xy(1, 1));
-                            cbSingleLine.addActionListener(new ActionListener(){
-                                public void actionPerformed(ActionEvent event) {
-                                    if (!cbSingleLine.isSelected() && !cbMultiLine.isSelected()) {
+                            cbSingleLine.addActionListener((ActionEvent event)->{ if (!cbSingleLine.isSelected() && !cbMultiLine.isSelected()) {
                                         cbComments.setSelected(false);
                                         cbSingleLine.setEnabled(false);
                                         cbMultiLine.setEnabled(false);
                                         cbSingleLine.setSelected(true);
                                         cbMultiLine.setSelected(true);
-                                    }
-                                }
-                            });
+                                    }});
 
                             //---- cbMultiLine ----
                             cbMultiLine.setText("Multi-line ( /* .. */ )");
                             cbMultiLine.setEnabled(false);
                             cbMultiLine.setSelected(true);
                             commentsPanel.add(cbMultiLine, cc.xy(1, 3));
-                            cbMultiLine.addActionListener(new ActionListener(){
-                                public void actionPerformed(ActionEvent event) {
-                                    if (!cbSingleLine.isSelected() && !cbMultiLine.isSelected()) {
+                            cbMultiLine.addActionListener((ActionEvent event)->{ if (!cbSingleLine.isSelected() && !cbMultiLine.isSelected()) {
                                         cbComments.setSelected(false);
                                         cbSingleLine.setEnabled(false);
                                         cbMultiLine.setEnabled(false);
                                         cbSingleLine.setSelected(true);
                                         cbMultiLine.setSelected(true);
-                                    }
-                                }
-                            });
+                                    }});
                         }
                         lexLeftPanel.add(commentsPanel, cc.xy(2, 9));
                     }
@@ -408,17 +392,13 @@ public class NewWizardDialog extends XJDialog {
                         //---- cbString ----
                         cbString.setText("String");
                         lexRightPanel.add(cbString, cc.xywh(1, 1, 2, 1));
-                        cbString.addActionListener(new ActionListener(){
-                            public void actionPerformed(ActionEvent event) {
-                                if (cbString.isSelected()) {
+                        cbString.addActionListener((ActionEvent event)->{ if (cbString.isSelected()) {
                                     singleQuoteRadio.setEnabled(true);
                                     doubleQuoteRadio.setEnabled(true);
                                 } else {
                                     singleQuoteRadio.setEnabled(false);
                                     doubleQuoteRadio.setEnabled(false);
-                                }
-                            }
-                        });
+                                }});
 
                         //======== stringPanel ========
                         {

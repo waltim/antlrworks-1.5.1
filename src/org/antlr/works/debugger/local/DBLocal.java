@@ -204,11 +204,7 @@ public class DBLocal implements Runnable, XJDialogProgressDelegate, StreamWatche
 
         // Start the thread a little bit later to let
         // the progress dialog displays first
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                startThread();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { startThread();});
     }
 
     public void startThread() {
@@ -276,13 +272,9 @@ public class DBLocal implements Runnable, XJDialogProgressDelegate, StreamWatche
     protected void notifyErrors() {
         hideProgress();
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                if(XJAlert.displayAlert(debuggerTab.getContainer(), error.title, error.message, "Show Console", "OK", 1, 1) == 0) {
+        SwingUtilities.invokeLater(()-> { if(XJAlert.displayAlert(debuggerTab.getContainer(), error.title, error.message, "Show Console", "OK", 1, 1) == 0) {
                     debuggerTab.selectConsoleTab();
-                }
-            }
-        });
+                }});
     }
 
     protected void notifyCancellation() {

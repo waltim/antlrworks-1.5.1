@@ -99,11 +99,7 @@ public class VisualDrawing extends ATEThread {
         } else {
             // Execute the panel creation only on the main thread
             if(!SwingUtilities.isEventDispatchThread()) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        refreshVisualPanel(graphs);
-                    }
-                });
+                SwingUtilities.invokeLater(()-> { refreshVisualPanel(graphs);});
             } else {
                 refreshVisualPanel(graphs);
             }

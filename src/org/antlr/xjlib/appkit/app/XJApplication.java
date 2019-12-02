@@ -571,11 +571,7 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
                 // the code closing the window to complete its execution.
                 // For example, to store the window size and position before
                 // the application is exited.
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        performQuit();
-                    }
-                });
+                SwingUtilities.invokeLater(()-> { performQuit();});
             }
         }
     }

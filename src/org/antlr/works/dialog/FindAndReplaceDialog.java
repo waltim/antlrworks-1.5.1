@@ -84,11 +84,7 @@ public class FindAndReplaceDialog extends XJPanel {
     public void addEscapeHandling() {
         KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, true);
 
-        ActionListener cancelAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent ae) {
-                setVisible(false);
-            }
-        };
+        ActionListener cancelAction = (ActionEvent ae)->{ setVisible(false);};
 
         getRootPane().registerKeyboardAction(cancelAction, "CancelAction", ks,
                 JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -133,23 +129,11 @@ public class FindAndReplaceDialog extends XJPanel {
             }
         });
 
-        ignoreCaseButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setIgnoreCase(ignoreCaseButton.isSelected());
-            }
-        });
+        ignoreCaseButton.addActionListener((ActionEvent event)->{ delegate.setIgnoreCase(ignoreCaseButton.isSelected());});
 
-        regexButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setRegex(regexButton.isSelected());
-            }
-        });
+        regexButton.addActionListener((ActionEvent event)->{ delegate.setRegex(regexButton.isSelected());});
 
-        optionsCombo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setOptions(optionsCombo.getSelectedIndex());
-            }
-        });
+        optionsCombo.addActionListener((ActionEvent event)->{ delegate.setOptions(optionsCombo.getSelectedIndex());});
     }
 
     private void alertEndOfDocument(ActionListener actionListener, boolean result) {

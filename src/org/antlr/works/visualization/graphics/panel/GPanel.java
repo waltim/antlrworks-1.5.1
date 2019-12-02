@@ -186,15 +186,11 @@ public class GPanel implements XJNotificationObserver {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconBackward());
         button.setFocusable(false);
         button.setToolTipText("Show Previous Error");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(view.setPrevGraph()) {
+        button.addActionListener((ActionEvent event)->{ if(view.setPrevGraph()) {
                     view.refresh();
                     createPathSelectionButtons();
                     updateCurrentError();
-                }
-            }
-        });
+                }});
         return button;
     }
 
@@ -202,15 +198,11 @@ public class GPanel implements XJNotificationObserver {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconForward());
         button.setFocusable(false);
         button.setToolTipText("Show Next Error");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(view.setNextGraph()) {
+        button.addActionListener((ActionEvent event)->{ if(view.setNextGraph()) {
                     view.refresh();
                     createPathSelectionButtons();
                     updateCurrentError();
-                }
-            }
-        });
+                }});
         return button;
     }
 

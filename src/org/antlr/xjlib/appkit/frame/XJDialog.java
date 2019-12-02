@@ -125,14 +125,10 @@ public class XJDialog extends XJControl {
     }
 
     public void setOKButton(JButton button) {
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(dialogCanCloseOK()) {
+        button.addActionListener((ActionEvent event)->{ if(dialogCanCloseOK()) {
                     dialogWillCloseOK();
                     closeWithReturnCode(BUTTON_OK);
-                }
-            }
-        });
+                }});
     }
 
     public void setCancelButton(JButton button) {
@@ -150,11 +146,7 @@ public class XJDialog extends XJControl {
     public void addEscapeHandling() {
         KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, true);
 
-        ActionListener cancelAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent ae) {
-                closeWithReturnCode(BUTTON_CANCEL);
-            }
-        };
+        ActionListener cancelAction = (ActionEvent ae)->{ closeWithReturnCode(BUTTON_CANCEL);};
 
         jDialog.getRootPane().registerKeyboardAction(cancelAction, "CancelAction", ks,
                 JComponent.WHEN_IN_FOCUSED_WINDOW);

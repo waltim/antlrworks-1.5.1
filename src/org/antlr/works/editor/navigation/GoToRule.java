@@ -105,11 +105,7 @@ public class GoToRule extends OverlayObject {
     public boolean overlayWillDisplay() {
         ruleNameField.setText("");
         // Invoke focus later because otherwise it fails on Windows
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ruleNameField.requestFocusInWindow();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { ruleNameField.requestFocusInWindow();});
         updateAutoCompletionList();
         return true;
     }

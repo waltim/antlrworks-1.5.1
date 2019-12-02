@@ -90,11 +90,7 @@ public class DBEventsPanel extends DetachablePanel {
     public void updateOnBreakEvent() {
         eventTableDataModel.update();
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                selectLastInfoTableItem();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { selectLastInfoTableItem();});
     }
 
     public void addEvent(DBEvent event, DBPlayerContextInfo info) {

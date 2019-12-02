@@ -115,29 +115,21 @@ public class DialogTestTemplate extends XJDialog {
             testClassField.setText(TEXT_FULLY_QUALIFIED_CLASS_NAME);
         }
 
-        textTestRadio.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                if (textTestRadio.isSelected()) {
+        textTestRadio.addActionListener((ActionEvent e)->{ if (textTestRadio.isSelected()) {
                     testTextArea.setEnabled(true);
                     testClassField.setEnabled(false);
                 } else {
                     testTextArea.setEnabled(false);
                     testClassField.setEnabled(true);
-                }
-            }
-        });
+                }});
 
-        classTestRadio.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                if (classTestRadio.isSelected()) {
+        classTestRadio.addActionListener((ActionEvent e)->{ if (classTestRadio.isSelected()) {
                     testTextArea.setEnabled(false);
                     testClassField.setEnabled(true);
                 } else {
                     testTextArea.setEnabled(true);
                     testClassField.setEnabled(false);
-                }
-            }
-        });
+                }});
 
         if (AWPrefs.TEST_RIG_MODE_TEXT.equals(AWPrefs.getTestRigTemplateMode(grammarIdentifier))) {
             textTestRadio.setSelected(true);

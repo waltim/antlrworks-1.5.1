@@ -212,15 +212,10 @@ public class DBControlPanel extends JPanel {
     public JCheckBox createBreakButton(String title) {
         JCheckBox button = new JCheckBox(title);
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                /** Select 'All' if no events are selected */
-                if(getBreakEvent().isEmpty()) {
+        button.addActionListener((ActionEvent e)->{ if(getBreakEvent().isEmpty()) {
                     breakAllButton.setSelected(true);
                     AWPrefs.getPreferences().setBoolean(AWPrefs.PREF_DEBUG_BREAK_ALL, true);
-                }
-            }
-        });
+                }});
         return button;
     }
 
@@ -291,11 +286,7 @@ public class DBControlPanel extends JPanel {
     }
 
     public void updateInterfaceLater() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                updateInterface();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { updateInterface();});
     }
 
 }
