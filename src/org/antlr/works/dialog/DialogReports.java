@@ -94,11 +94,7 @@ public class DialogReports extends XJDialog {
 
         typeCombo.addActionListener(new MyActionListener());
         humanFormatCheck.addActionListener(new MyActionListener());
-        currentSpinner.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent event) {
-                updateInfo(true);
-            }
-        });
+        currentSpinner.addChangeListener(event -> updateInfo(true));
     }
 
     public void setDelegate(DialogReportsDelegate delegate) {
@@ -123,11 +119,9 @@ public class DialogReports extends XJDialog {
     }
 
     public void dialogWillCloseCancel() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                if(delegate != null)
-                    delegate.reportsCancelled();                        
-            }
+        SwingUtilities.invokeLater(() -> {
+            if(delegate != null)
+                delegate.reportsCancelled();
         });
     }
 
@@ -240,11 +234,7 @@ public class DialogReports extends XJDialog {
             try {
                 error = submit();
             } finally {
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        finished();
-                    }
-                });
+                SwingUtilities.invokeLater(() -> finished());
             }
         }
 

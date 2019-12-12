@@ -125,22 +125,18 @@ public class XJDialog extends XJControl {
     }
 
     public void setOKButton(JButton button) {
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(dialogCanCloseOK()) {
-                    dialogWillCloseOK();
-                    closeWithReturnCode(BUTTON_OK);
-                }
+        button.addActionListener(event -> {
+            if(dialogCanCloseOK()) {
+                dialogWillCloseOK();
+                closeWithReturnCode(BUTTON_OK);
             }
         });
     }
 
     public void setCancelButton(JButton button) {
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                dialogWillCloseCancel();
-                closeWithReturnCode(BUTTON_CANCEL);
-            }
+        button.addActionListener(event -> {
+            dialogWillCloseCancel();
+            closeWithReturnCode(BUTTON_CANCEL);
         });
     }
 

@@ -67,18 +67,16 @@ public class DetachablePanel extends JPanel {
         add(mainPanel, BorderLayout.CENTER);
 
         KeyboardFocusManager focusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        focusManager.addPropertyChangeListener(pcl = new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent e) {
-                    String prop = e.getPropertyName();
-                    if(prop.equals("focusOwner") && e.getNewValue() != null) {
-                        Component c = (Component)e.getNewValue();
-                        if(isParentOf(c))
-                            focusGained();
-                        else
-                            focusLost();
-                    }
-                }
+        focusManager.addPropertyChangeListener(pcl = e -> {
+            String prop = e.getPropertyName();
+            if(prop.equals("focusOwner") && e.getNewValue() != null) {
+                Component c = (Component)e.getNewValue();
+                if(isParentOf(c))
+                    focusGained();
+                else
+                    focusLost();
             }
+        }
         );
     }
 
@@ -117,13 +115,11 @@ public class DetachablePanel extends JPanel {
         detach.setVerticalAlignment(JButton.CENTER);
         detach.setMargin(new Insets(0, 0, 0, 0));
 
-        detach.addActionListener(al = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(detached)
-                    attach();
-                else
-                    detach();
-            }
+        detach.addActionListener(al = e -> {
+            if(detached)
+                attach();
+            else
+                detach();
         });
         return detach;
     }

@@ -204,11 +204,7 @@ public class DBLocal implements Runnable, XJDialogProgressDelegate, StreamWatche
 
         // Start the thread a little bit later to let
         // the progress dialog displays first
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                startThread();
-            }
-        });
+        SwingUtilities.invokeLater(() -> startThread());
     }
 
     public void startThread() {
@@ -236,22 +232,20 @@ public class DBLocal implements Runnable, XJDialogProgressDelegate, StreamWatche
 
     protected void askUserForInputText() {
         try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    hideProgress();
+            SwingUtilities.invokeAndWait(() -> {
+                hideProgress();
 
-                    DebuggerInputDialog dialog = new DebuggerInputDialog(debuggerTab, debuggerTab.getContainer());
-                    dialog.setInputText(rawInputText);
-                    if(dialog.runModal() == XJDialog.BUTTON_OK) {
-                        rawInputText = dialog.getRawInputText();
-                        inputText = dialog.getInputText();
-                        inputFile = dialog.getInputFile();
-                        inputMode = dialog.getInputMode();
-                        startRule = dialog.getRule();
-                        showProgress();
-                    } else
-                        cancel();
-                }
+                DebuggerInputDialog dialog = new DebuggerInputDialog(debuggerTab, debuggerTab.getContainer());
+                dialog.setInputText(rawInputText);
+                if(dialog.runModal() == XJDialog.BUTTON_OK) {
+                    rawInputText = dialog.getRawInputText();
+                    inputText = dialog.getInputText();
+                    inputFile = dialog.getInputFile();
+                    inputMode = dialog.getInputMode();
+                    startRule = dialog.getRule();
+                    showProgress();
+                } else
+                    cancel();
             });
         } catch (Exception e) {
             debuggerTab.getConsole().println(e);
@@ -276,11 +270,9 @@ public class DBLocal implements Runnable, XJDialogProgressDelegate, StreamWatche
     protected void notifyErrors() {
         hideProgress();
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                if(XJAlert.displayAlert(debuggerTab.getContainer(), error.title, error.message, "Show Console", "OK", 1, 1) == 0) {
-                    debuggerTab.selectConsoleTab();
-                }
+        SwingUtilities.invokeLater(() -> {
+            if(XJAlert.displayAlert(debuggerTab.getContainer(), error.title, error.message, "Show Console", "OK", 1, 1) == 0) {
+                debuggerTab.selectConsoleTab();
             }
         });
     }
@@ -292,14 +284,12 @@ public class DBLocal implements Runnable, XJDialogProgressDelegate, StreamWatche
     protected void notifyCompletion() {
         hideProgress();
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                boolean didRun = false;
-                if(!cancelled()) {
-                    didRun = debuggerTab.debuggerLocalDidRun(optionBuild());
-                    if (optionRun() && didRun) {
-                        runThroughRecorder();
-                    }
+        SwingUtilities.invokeLater(() -> {
+            boolean didRun = false;
+            if(!cancelled()) {
+                didRun = debuggerTab.debuggerLocalDidRun(optionBuild());
+                if (optionRun() && didRun) {
+                    runThroughRecorder();
                 }
             }
         });

@@ -61,11 +61,7 @@ public class XJColorChooser extends XJDialog {
         }
 
         cc = new JColorChooser(oldTargetColor);
-        cc.getSelectionModel().addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                updateTargetColor();
-            }
-        });
+        cc.getSelectionModel().addChangeListener(e -> updateTargetColor());
         getContentPane().add(cc, BorderLayout.CENTER);
 
         JButton cancel = new JButton("Cancel");

@@ -450,27 +450,15 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
     }
 
     public void connectionSuccess() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                debuggerTab.connectionSuccess();
-            }
-        });
+        SwingUtilities.invokeLater(() -> debuggerTab.connectionSuccess());
     }
 
     public void connectionFailed() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                debuggerTab.connectionFailed();
-            }
-        });
+        SwingUtilities.invokeLater(() -> debuggerTab.connectionFailed());
     }
 
     public void connectionCancelled() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                debuggerTab.connectionCancelled();
-            }
-        });
+        SwingUtilities.invokeLater(() -> debuggerTab.connectionCancelled());
     }
 
     public synchronized void requestStop() {
@@ -517,11 +505,9 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
         if(listener.tokenIndexesAreInvalid()) {
             remoteParserStateWarned = true;
 
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    String message = "Invalid token indexes (current index is "+currentTokenIndex+" at event "+currentTokenIndexEventNumber+" while the same index was used at event "+lastTokenIndexEventNumber+"). Make sure that the remote parser implements the getTokenIndex() method of Token. The indexes must be unique for each consumed token.";
-                    XJAlert.display(debuggerTab.getContainer(), "Invalid Token Indexes", message);
-                }
+            SwingUtilities.invokeLater(() -> {
+                String message = "Invalid token indexes (current index is "+currentTokenIndex+" at event "+currentTokenIndexEventNumber+" while the same index was used at event "+lastTokenIndexEventNumber+"). Make sure that the remote parser implements the getTokenIndex() method of Token. The indexes must be unique for each consumed token.";
+                XJAlert.display(debuggerTab.getContainer(), "Invalid Token Indexes", message);
             });
 
             return true;
@@ -596,11 +582,7 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
                     break;
 
                 case DBEvent.COMMENCE:
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            checkRemoteParserHeaders();
-                        }
-                    });
+                    SwingUtilities.invokeLater(() -> checkRemoteParserHeaders());
                     setStoppedOnEvent(DBEvent.COMMENCE);
                     breaksOnEvent(true);
                     break;

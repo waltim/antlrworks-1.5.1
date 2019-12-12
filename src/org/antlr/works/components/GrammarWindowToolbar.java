@@ -128,59 +128,23 @@ public class GrammarWindowToolbar implements XJNotificationObserver {
     }
 
     public void addActions() {
-        backward.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.goToBackward();
-            }
-        });
+        backward.addActionListener(e -> window.goToBackward());
 
-        forward.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.goToForward();
-            }
-        });
+        forward.addActionListener(e -> window.goToForward());
 
-        sort.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.toggleRulesSorting();
-            }
-        });
+        sort.addActionListener(e -> window.toggleRulesSorting());
 
-        sd.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.toggleSyntaxDiagram();
-            }
-        });
+        sd.addActionListener(e -> window.toggleSyntaxDiagram());
 
-        coloring.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.toggleSyntaxColoring();
-            }
-        });
+        coloring.addActionListener(e -> window.toggleSyntaxColoring());
 
-        ideas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.toggleIdeas();
-            }
-        });
+        ideas.addActionListener(e -> window.toggleIdeas());
 
-        find.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.find();
-            }
-        });
+        find.addActionListener(e -> window.find());
 
-        debug.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.getDebugMenu().debug();
-            }
-        });
+        debug.addActionListener(e -> window.getDebugMenu().debug());
 
-        debugAgain.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.getDebugMenu().debugAgain();
-            }
-        });
+        debugAgain.addActionListener(e -> window.getDebugMenu().debugAgain());
 
     }
 

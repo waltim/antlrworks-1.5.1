@@ -109,11 +109,9 @@ public class FindAndReplaceDialog extends XJPanel {
             }
         });
 
-        replaceButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setReplaceString(replaceField.getText());
-                delegate.replace();
-            }
+        replaceButton.addActionListener(event -> {
+            delegate.setReplaceString(replaceField.getText());
+            delegate.replace();
         });
 
         replaceAndFindButton.addActionListener(new ActionListener() {
@@ -125,31 +123,17 @@ public class FindAndReplaceDialog extends XJPanel {
             }
         });
 
-        replaceAllButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setFindString(findField.getText());
-                delegate.setReplaceString(replaceField.getText());
-                delegate.replaceAll();
-            }
+        replaceAllButton.addActionListener(event -> {
+            delegate.setFindString(findField.getText());
+            delegate.setReplaceString(replaceField.getText());
+            delegate.replaceAll();
         });
 
-        ignoreCaseButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setIgnoreCase(ignoreCaseButton.isSelected());
-            }
-        });
+        ignoreCaseButton.addActionListener(event -> delegate.setIgnoreCase(ignoreCaseButton.isSelected()));
 
-        regexButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setRegex(regexButton.isSelected());
-            }
-        });
+        regexButton.addActionListener(event -> delegate.setRegex(regexButton.isSelected()));
 
-        optionsCombo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setOptions(optionsCombo.getSelectedIndex());
-            }
-        });
+        optionsCombo.addActionListener(event -> delegate.setOptions(optionsCombo.getSelectedIndex()));
     }
 
     private void alertEndOfDocument(ActionListener actionListener, boolean result) {
