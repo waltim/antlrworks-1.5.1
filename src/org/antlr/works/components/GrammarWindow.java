@@ -1097,15 +1097,11 @@ public class GrammarWindow
                     //getContainer().selectEditor(grammars.get(0));
 
                     // set the caret position
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            GrammarEngine engine = getGrammarEngine();
+                    SwingUtilities.invokeLater(()-> { GrammarEngine engine = getGrammarEngine();
                             int index = engine.getFirstDeclarationPosition(ref.getName());
                             if(index != -1) {
                                 setCaretPosition(index);
-                            }
-                        }
-                    });
+                            }});
                 }
             } else {
                 setCaretPosition(index);
@@ -1156,12 +1152,8 @@ public class GrammarWindow
         if(windowFirstDisplay) {
             windowFirstDisplay = false;
             afterParseOperations();
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    updateVisualization(true);
-                    findTokensToIgnore(true);
-                }
-            });
+            SwingUtilities.invokeLater(()-> { updateVisualization(true);
+                    findTokensToIgnore(true);});
         } else {
             afterParserOp.awakeThread();
         }
@@ -1253,11 +1245,8 @@ public class GrammarWindow
 
             // Tells the caret to be visible a little bit later
             // to let Swing focus the component
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    getTextPane().getCaret().setVisible(true);
-                }
-            });
+            SwingUtilities.invokeLater(()-> { getTextPane().getCaret().setVisible(true);
+                });
         } else {
             getTextPane().getCaret().setVisible(flag);
         }
@@ -1270,11 +1259,8 @@ public class GrammarWindow
         // Request focus in the text pane. A little bit later because
         // in desktop mode, the focus is not taken into account if
         // requested immediately.
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                getTextPane().requestFocusInWindow();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { getTextPane().requestFocusInWindow();
+            });
     }
 
     public void componentActivated() {
@@ -1564,12 +1550,8 @@ public class GrammarWindow
         public ConsoleStatus() {
             box = Box.createHorizontalBox();
 
-            label = new XJURLLabel(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    selectTab(consoleTab.getTabComponent());
-                    clearMessage();
-                }
-            });
+            label = new XJURLLabel((ActionEvent e)->{ selectTab(consoleTab.getTabComponent());
+                    clearMessage();});
 
             clearMessage();
         }
@@ -1625,11 +1607,8 @@ public class GrammarWindow
 
             JPopupMenu popup = new JPopupMenu();
             JMenuItem item = new JMenuItem("Close");
-            item.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    closeTab(bottomTab.getSelectedIndex());
-                }
-            });
+            item.addActionListener((ActionEvent event)->{ closeTab(bottomTab.getSelectedIndex());
+                });
             popup.add(item);
             popup.show(event.getComponent(), event.getX(), event.getY());
         }

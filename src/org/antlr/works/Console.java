@@ -222,12 +222,7 @@ public class Console {
     }
 
     private static boolean hasArgument(String[] args, String name) {
-        for (String a : args) {
-            if (a.equals(name)) {
-                return true;
-            }
-        }
-        return false;
+        return args.stream().anyMatch(a -> a.equals(name));
     }
 
     private String getGrammarText() {

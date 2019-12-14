@@ -186,15 +186,12 @@ public class GPanel implements XJNotificationObserver {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconBackward());
         button.setFocusable(false);
         button.setToolTipText("Show Previous Error");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(view.setPrevGraph()) {
+        button.addActionListener((ActionEvent event)->{ if(view.setPrevGraph()) {
                     view.refresh();
                     createPathSelectionButtons();
                     updateCurrentError();
                 }
-            }
-        });
+            });
         return button;
     }
 
@@ -202,15 +199,12 @@ public class GPanel implements XJNotificationObserver {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconForward());
         button.setFocusable(false);
         button.setToolTipText("Show Next Error");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(view.setNextGraph()) {
+        button.addActionListener((ActionEvent event)->{ if(view.setNextGraph()) {
                     view.refresh();
                     createPathSelectionButtons();
                     updateCurrentError();
                 }
-            }
-        });
+            });
         return button;
     }
 
@@ -262,16 +256,12 @@ public class GPanel implements XJNotificationObserver {
         JCheckBox button = new JCheckBox(String.valueOf(pathIndex+1));
         button.setName(String.valueOf(pathIndex));
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                JCheckBox button = (JCheckBox)event.getSource();
+        button.addActionListener((ActionEvent event)->{ JCheckBox button = (JCheckBox)event.getSource();
                 GGraphGroup gg = (GGraphGroup)view.getCurrentGraph();
                 gg.getPathGroup().setPathVisible(Integer.parseInt(button.getName()), button.isSelected());
                 gg.getPathGroup().makeSureCurrentPathIsVisible();
                 view.cacheRerender();
-                view.repaint();
-            }
-        });
+                view.repaint();});
 
         GGraphGroup gg = (GGraphGroup)view.getCurrentGraph();
         button.setSelected(gg.getPathGroup().isPathVisible(pathIndex));
@@ -284,16 +274,12 @@ public class GPanel implements XJNotificationObserver {
         button.setSelected(true);
         button.setFocusable(false);
         button.setToolTipText("Show links between rules");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                for (Object o : view.getGraphs()) {
+        button.addActionListener((ActionEvent event)->{ for (Object o : view.getGraphs()) {
                     GGraphGroup gg = (GGraphGroup) o;
                     gg.getPathGroup().toggleShowRuleLinks();
                 }
                 view.cacheRerender();
-                view.repaint();
-            }
-        });
+                view.repaint();});
         return button;
     }
 
@@ -327,13 +313,9 @@ public class GPanel implements XJNotificationObserver {
         slider.setMaximum(800);
         slider.setValue((int)(context.getFactor()*40));
 
-        slider.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent event) {
-                JSlider slider = (JSlider)event.getSource();
+        slider.addChangeListener((ChangeEvent event)->{ JSlider slider = (JSlider)event.getSource();
                 context.setFactor((float)slider.getValue()/40);
-                view.refreshSizeChanged(slider.getValueIsAdjusting());
-            }
-        });
+                view.refreshSizeChanged(slider.getValueIsAdjusting());});
         return slider;
     }
 
@@ -407,9 +389,7 @@ public class GPanel implements XJNotificationObserver {
         JCheckBox button = new JCheckBox("NFA");
         button.setFocusable(false);
         button.setSelected(context.skin instanceof NFASkin);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_TOGGLE_SD_NFA);
+        button.addActionListener((ActionEvent event)->{ StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_TOGGLE_SD_NFA);
 
                 JCheckBox button = (JCheckBox)event.getSource();
                 if(button.isSelected())
@@ -417,9 +397,7 @@ public class GPanel implements XJNotificationObserver {
                 else
                     context.setSkin(new SDSkin());
 
-                view.refresh();
-            }
-        });
+                view.refresh();});
         return button;
     }
 
@@ -427,12 +405,8 @@ public class GPanel implements XJNotificationObserver {
         final JCheckBox button = new JCheckBox("Rule Name");
         button.setFocusable(false);
         button.setSelected(context.isShowRuleName());
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                context.setShowRuleName(button.isSelected());
-                view.refresh();
-            }
-        });
+        button.addActionListener((ActionEvent event)->{ context.setShowRuleName(button.isSelected());
+                view.refresh();});
         return button;
     }
 

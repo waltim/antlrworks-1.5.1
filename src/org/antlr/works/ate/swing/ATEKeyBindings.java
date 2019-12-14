@@ -85,12 +85,8 @@ public class ATEKeyBindings {
         inputMap.put(key, DefaultEditorKit.selectionEndLineAction);
 
         // Add shift-delete to act as the standard delete key
-        addKeyBinding("SHIFT_DELETE", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, Event.SHIFT_MASK), new AbstractAction() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                if(!textComponent.isWritable()) return;
-                textComponent.getActionMap().get(DefaultEditorKit.deleteNextCharAction).actionPerformed(actionEvent);
-            }
-        });
+        addKeyBinding("SHIFT_DELETE", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, Event.SHIFT_MASK), (ActionEvent actionEvent)->{ if(!textComponent.isWritable()) return;
+                textComponent.getActionMap().get(DefaultEditorKit.deleteNextCharAction).actionPerformed(actionEvent);});
     }
 
     public void addEmacsKeyBindings() {
@@ -121,18 +117,12 @@ public class ATEKeyBindings {
         inputMap.put(key, DefaultEditorKit.endLineAction);
 
         // Ctrl-d to delete the character under the cursor
-        addKeyBinding("CONTROL_D", KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK), new AbstractAction() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                if(!textComponent.isWritable()) return;
-                textComponent.getActionMap().get(DefaultEditorKit.deleteNextCharAction).actionPerformed(actionEvent);
-            }
-        });
+        addKeyBinding("CONTROL_D", KeyStroke.getKeyStroke(KeyEvent.VK_D, Event.CTRL_MASK), (ActionEvent actionEvent)->{ if(!textComponent.isWritable()) return;
+                textComponent.getActionMap().get(DefaultEditorKit.deleteNextCharAction).actionPerformed(actionEvent);});
 
         // Ctrl-k to delete the characters from the current position to the end of the line
         // Has to create a custom action to handle this one.
-        addKeyBinding("CONTROL_K", KeyStroke.getKeyStroke(KeyEvent.VK_K, Event.CTRL_MASK), new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                if(!textComponent.isWritable()) return;
+        addKeyBinding("CONTROL_K", KeyStroke.getKeyStroke(KeyEvent.VK_K, Event.CTRL_MASK), (ActionEvent e)->{ if(!textComponent.isWritable()) return;
 
                 int start = textComponent.getCaretPosition();
                 Document doc = textComponent.getDocument();
@@ -160,15 +150,11 @@ public class ATEKeyBindings {
                     cb.setContents(new StringSelection(content), null);
                 } catch (BadLocationException e1) {
                     e1.printStackTrace();
-                }
-            }
-        });
+                }});
 
         // Ctrl-t swap the two characters before and after the current position
         // Has to create a custom action to handle this one.
-        addKeyBinding("CONTROL_T", KeyStroke.getKeyStroke(KeyEvent.VK_T, Event.CTRL_MASK), new AbstractAction() {
-            public void actionPerformed(ActionEvent e) {
-                if(!textComponent.isWritable()) return;
+        addKeyBinding("CONTROL_T", KeyStroke.getKeyStroke(KeyEvent.VK_T, Event.CTRL_MASK), (ActionEvent e)->{ if(!textComponent.isWritable()) return;
 
                 int p = textComponent.getCaretPosition();
                 Document doc = textComponent.getDocument();
@@ -183,9 +169,7 @@ public class ATEKeyBindings {
                     textComponent.setCaretPosition(p);
                 } catch (BadLocationException e1) {
                     e1.printStackTrace();
-                }
-            }
-        });
+                }});
     }
 
     public void addKeyBinding(String name, KeyStroke keystroke, AbstractAction action) {

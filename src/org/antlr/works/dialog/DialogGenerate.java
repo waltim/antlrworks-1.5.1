@@ -72,13 +72,10 @@ public class DialogGenerate extends XJDialog {
 
         outputPathField.setText(window.getOutputPath());
 
-        browseButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(XJFileChooser.shared().displayChooseDirectory(DialogGenerate.this.getJavaComponent())) {
+        browseButton.addActionListener((ActionEvent event)->{ if(XJFileChooser.shared().displayChooseDirectory(DialogGenerate.this.getJavaComponent())) {
                     outputPathField.setText(XJFileChooser.shared().getSelectedFilePath());
                 }
-            }
-        });
+            });
     }
 
     public void dialogWillCloseOK() {

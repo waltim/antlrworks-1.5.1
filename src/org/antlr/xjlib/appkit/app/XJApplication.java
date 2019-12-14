@@ -162,14 +162,10 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
         launchArguments = args;
         useDesktopMode = XJApplication.delegate.useDesktopMode();
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                XJApplication.startingUp = false;
+        SwingUtilities.invokeLater(()-> { XJApplication.startingUp = false;
                 XJApplication.delegate.appDidLaunch(launchArguments, documentsToOpenAtStartup);
                 documentsToOpenAtStartup.clear();
-                new java.util.Timer().schedule(new ScheduledTimer(), 1000, 1000*60*SCHEDULED_TIMER_MINUTES);
-            }
-        });
+                new java.util.Timer().schedule(new ScheduledTimer(), 1000, 1000*60*SCHEDULED_TIMER_MINUTES);});
     }
 
     protected void startup() {
@@ -571,11 +567,8 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
                 // the code closing the window to complete its execution.
                 // For example, to store the window size and position before
                 // the application is exited.
-                SwingUtilities.invokeLater(new Runnable() {
-                    public void run() {
-                        performQuit();
-                    }
-                });
+                SwingUtilities.invokeLater(()-> { performQuit();
+                    });
             }
         }
     }

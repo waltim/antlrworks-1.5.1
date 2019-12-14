@@ -81,11 +81,8 @@ public class DBStackPanel extends DetachablePanel {
     public void updateOnBreakEvent() {
         ruleTableDataModel.update();
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                selectLastInfoTableItem();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { selectLastInfoTableItem();
+            });
     }
 
     public void pushRule(DBEventEnterRule rule) {

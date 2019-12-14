@@ -74,9 +74,7 @@ public class XJTree extends JTree implements DragGestureListener, DropTargetList
     public static final int DROP_BELOW = 2;
 
     public XJTree() {
-        autoExpandTimer = new Timer(1000, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if(isRootVisible() && getRowForPath(lastPath) == 0) {
+        autoExpandTimer = new Timer(1000, (ActionEvent e)->{ if(isRootVisible() && getRowForPath(lastPath) == 0) {
                     // Do not expand the root
                     return;
                 }
@@ -84,9 +82,7 @@ public class XJTree extends JTree implements DragGestureListener, DropTargetList
                 if(isExpanded(lastPath))
                     collapsePath(lastPath);
                 else
-                    expandPath(lastPath);
-            }
-        });
+                    expandPath(lastPath);});
         autoExpandTimer.setRepeats(false);
     }
 

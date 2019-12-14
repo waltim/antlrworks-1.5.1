@@ -77,9 +77,7 @@ public class Usages extends GrammarWindowTab {
 
         tree.setCellRenderer(treeRenderer);
 
-        tree.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                int selRow = tree.getRowForLocation(e.getX(), e.getY());
+        tree.addMouseListener((MouseEvent e)->{ int selRow = tree.getRowForLocation(e.getX(), e.getY());
                 TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
                 if(selRow != -1) {
                     if(e.getClickCount() == 1) {
@@ -89,9 +87,7 @@ public class Usages extends GrammarWindowTab {
                         if(node.getUserObject() instanceof UsageMatch)
                             selectMatch((UsageMatch)node.getUserObject());
                     }
-                }
-            }
-        });
+                }});
 
         treeScrollPane = new JScrollPane(tree);
         treeScrollPane.setWheelScrollingEnabled(true);

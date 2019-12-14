@@ -190,11 +190,8 @@ public class CodeGenerate implements Runnable {
             window.getConsoleTab().println(e);
         }
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                generateInThreadDidTerminate();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { generateInThreadDidTerminate();
+            });
     }
 
 }

@@ -84,11 +84,8 @@ public class FindAndReplaceDialog extends XJPanel {
     public void addEscapeHandling() {
         KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, true);
 
-        ActionListener cancelAction = new AbstractAction() {
-            public void actionPerformed(ActionEvent ae) {
-                setVisible(false);
-            }
-        };
+        ActionListener cancelAction = (ActionEvent ae)->{ setVisible(false);
+            };
 
         getRootPane().registerKeyboardAction(cancelAction, "CancelAction", ks,
                 JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -109,12 +106,8 @@ public class FindAndReplaceDialog extends XJPanel {
             }
         });
 
-        replaceButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setReplaceString(replaceField.getText());
-                delegate.replace();
-            }
-        });
+        replaceButton.addActionListener((ActionEvent event)->{ delegate.setReplaceString(replaceField.getText());
+                delegate.replace();});
 
         replaceAndFindButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
@@ -125,31 +118,18 @@ public class FindAndReplaceDialog extends XJPanel {
             }
         });
 
-        replaceAllButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setFindString(findField.getText());
+        replaceAllButton.addActionListener((ActionEvent event)->{ delegate.setFindString(findField.getText());
                 delegate.setReplaceString(replaceField.getText());
-                delegate.replaceAll();
-            }
-        });
+                delegate.replaceAll();});
 
-        ignoreCaseButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setIgnoreCase(ignoreCaseButton.isSelected());
-            }
-        });
+        ignoreCaseButton.addActionListener((ActionEvent event)->{ delegate.setIgnoreCase(ignoreCaseButton.isSelected());
+            });
 
-        regexButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setRegex(regexButton.isSelected());
-            }
-        });
+        regexButton.addActionListener((ActionEvent event)->{ delegate.setRegex(regexButton.isSelected());
+            });
 
-        optionsCombo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                delegate.setOptions(optionsCombo.getSelectedIndex());
-            }
-        });
+        optionsCombo.addActionListener((ActionEvent event)->{ delegate.setOptions(optionsCombo.getSelectedIndex());
+            });
     }
 
     private void alertEndOfDocument(ActionListener actionListener, boolean result) {

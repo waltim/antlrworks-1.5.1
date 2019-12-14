@@ -103,51 +103,35 @@ public class DBControlPanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconStop());
         button.setToolTipText("Stop");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                debuggerTab.debuggerStop(false);
-                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_STOP);
-            }
-        });
+        button.addActionListener((ActionEvent event)->{ debuggerTab.debuggerStop(false);
+                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_STOP);});
         return button;
     }
 
     public JButton createStepBackButton() {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconStepBackward());
         button.setToolTipText("Step Back");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                debuggerTab.getRecorder().stepBackward(getBreakEvent());
+        button.addActionListener((ActionEvent event)->{ debuggerTab.getRecorder().stepBackward(getBreakEvent());
                 updateInterfaceLater();
-                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_STEP_BACK);
-            }
-        });
+                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_STEP_BACK);});
         return button;
     }
 
     public JButton createStepForwardButton() {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconStepForward());
         button.setToolTipText("Step Forward");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                debuggerTab.getRecorder().stepForward(getBreakEvent());
+        button.addActionListener((ActionEvent event)->{ debuggerTab.getRecorder().stepForward(getBreakEvent());
                 updateInterfaceLater();
-                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_STEP_FORWARD);
-            }
-        });
+                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_STEP_FORWARD);});
         return button;
     }
 
     public JButton createStepOverButton() {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconStepOver());
         button.setToolTipText("Step Over");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                debuggerTab.getRecorder().stepOver();
+        button.addActionListener((ActionEvent event)->{ debuggerTab.getRecorder().stepOver();
                 updateInterfaceLater();
-                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_STEP_OVER);
-            }
-        });
+                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_STEP_OVER);});
         return button;
     }
 
@@ -155,14 +139,10 @@ public class DBControlPanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconGoToStart());
         button.setToolTipText("Go To Start");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                debuggerTab.resetGrammarLocation();
+        button.addActionListener((ActionEvent event)->{ debuggerTab.resetGrammarLocation();
                 debuggerTab.getRecorder().goToStart();
                 updateInterfaceLater();
-                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_GOTO_START);
-            }
-        });
+                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_GOTO_START);});
         return button;
     }
 
@@ -170,13 +150,9 @@ public class DBControlPanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconGoToEnd());
         button.setToolTipText("Go To End");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                debuggerTab.getRecorder().goToEnd();
+        button.addActionListener((ActionEvent event)->{ debuggerTab.getRecorder().goToEnd();
                 updateInterfaceLater();
-                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_GOTO_END);
-            }
-        });
+                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_GOTO_END);});
         return button;
     }
 
@@ -184,13 +160,9 @@ public class DBControlPanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconFastForward());
         button.setToolTipText("Fast forward");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                debuggerTab.getRecorder().fastForward();
+        button.addActionListener((ActionEvent event)->{ debuggerTab.getRecorder().fastForward();
                 updateInterfaceLater();
-                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_FAST_FORWARD);
-            }
-        });
+                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_DEBUGGER_FAST_FORWARD);});
         return button;
     }
 
@@ -212,15 +184,11 @@ public class DBControlPanel extends JPanel {
     public JCheckBox createBreakButton(String title) {
         JCheckBox button = new JCheckBox(title);
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                /** Select 'All' if no events are selected */
-                if(getBreakEvent().isEmpty()) {
+        button.addActionListener((ActionEvent e)->{ if(getBreakEvent().isEmpty()) {
                     breakAllButton.setSelected(true);
                     AWPrefs.getPreferences().setBoolean(AWPrefs.PREF_DEBUG_BREAK_ALL, true);
                 }
-            }
-        });
+            });
         return button;
     }
 
@@ -291,11 +259,8 @@ public class DBControlPanel extends JPanel {
     }
 
     public void updateInterfaceLater() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                updateInterface();
-            }
-        });
+        SwingUtilities.invokeLater(()-> { updateInterface();
+            });
     }
 
 }
