@@ -208,12 +208,12 @@ public class DBInputProcessorToken implements DBInputProcessor, TextPaneDelegate
         /** Remove any consume and lookahead attribute for any token with index
          * greater than start
          */
-        for (Integer idx : inputTokenIndexes) {
-            if (idx >= start) {
-                indexToConsumeAttributeMap.remove(idx);
-                lookaheadTokenIndexes.remove(idx);
-            }
-        }
+        inputTokenIndexes.stream().filter((idx) -> (idx >= start)).map((idx) -> {
+            indexToConsumeAttributeMap.remove(idx);
+            return idx;
+        }).forEachOrdered((idx) -> {
+            lookaheadTokenIndexes.remove(idx);
+        });
     }
 
     public void addToken(Token token) {
@@ -259,14 +259,14 @@ public class DBInputProcessorToken implements DBInputProcessor, TextPaneDelegate
     public String renderTokensText() {
         currentTokenIndexInText = 0;
         StringBuilder text = new StringBuilder();
-        for (Integer idx : inputTokenIndexes) {
+        inputTokenIndexes.forEach((idx) -> {
             DBInputTextTokenInfo info = indexToTokenInfoMap.get(idx);
             info.setStart(text.length());
             text.append(info.getText());
-
-            if (idx == getCurrentTokenIndex())
+            if (idx == getCurrentTokenIndex()) {
                 currentTokenIndexInText = info.start;
-        }
+            }
+        });
         return text.toString();
     }
 
@@ -278,7 +278,7 @@ public class DBInputProcessorToken implements DBInputProcessor, TextPaneDelegate
         textPane.getStyledDocument().setCharacterAttributes(0, text.length(), SimpleAttributeSet.EMPTY, true);
 
         /** Apply the style for each token */
-        for (Integer idx : inputTokenIndexes) {
+        inputTokenIndexes.forEach((idx) -> {
             DBInputTextTokenInfo info = indexToTokenInfoMap.get(idx);
             AttributeSet attribute = indexToConsumeAttributeMap.get(idx);
             if (attribute == null)
@@ -289,7 +289,7 @@ public class DBInputProcessorToken implements DBInputProcessor, TextPaneDelegate
                 attribute = attributeLookahead;
 
             textPane.getStyledDocument().setCharacterAttributes(info.start, info.end, attribute, true);
-        }
+        });
     }
 
     public void updateOnBreakEvent() {
@@ -298,16 +298,14 @@ public class DBInputProcessorToken implements DBInputProcessor, TextPaneDelegate
         /** Scroll the text pane to the current token position. Invoke that later on
          * so the pane scrolls at the correct position (otherwise the scroll will be reset).
          */
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    Rectangle r = textPane.modelToView(currentTokenIndexInText);
-                    if(r != null) {
-                        textPane.scrollRectToVisible(r);                        
-                    }
-                } catch (BadLocationException e) {
-                    debuggerTab.getConsole().println(e);
+        SwingUtilities.invokeLater(() -> {
+            try {
+                Rectangle r = textPane.modelToView(currentTokenIndexInText);
+                if(r != null) {
+                    textPane.scrollRectToVisible(r);
                 }
+            } catch (BadLocationException e) {
+                debuggerTab.getConsole().println(e);
             }
         });
     }
@@ -331,15 +329,16 @@ public class DBInputProcessorToken implements DBInputProcessor, TextPaneDelegate
     }
 
     public void textPaneDidPaint(Graphics g) {
-        for (DBInputTextTokenInfo info : indexToTokenInfoMap.values()) {
+        indexToTokenInfoMap.values().stream().map((info) -> {
             if (drawTokensBox)
                 drawToken(info, (Graphics2D) g, Color.red, false);
-
+            return info;
+        }).forEachOrdered((info) -> {
             if (inputBreakpointIndexes.contains(Integer.valueOf(info.token.getTokenIndex())))
                 drawToken(info, (Graphics2D) g, INPUT_BREAKPOINT_COLOR, true);
             else if (mouseIndex >= info.start && mouseIndex < info.end)
                 drawToken(info, (Graphics2D) g, HIGHLIGHTED_COLOR, true);
-        }
+        });
     }
 
     public void drawToken(DBInputTextTokenInfo info, Graphics2D g, Color c, boolean fill) {

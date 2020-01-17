@@ -64,9 +64,9 @@ public class GNode extends GObject implements SSerializable {
 
     public void setContext(GContext context) {
         super.setContext(context);
-        for (GLink link : links) {
+        links.forEach((link) -> {
             link.setContext(context);
-        }
+        });
     }
 
     public void setState(FAState state) {
@@ -84,9 +84,8 @@ public class GNode extends GObject implements SSerializable {
         // Look into each transition to see if the state number
         // has been skipped during NFA optimization: in this case,
         // any skipped state will be stored in the transition.
-        for (GLink link : links) {
-            if (link.containsStateNumber(n))
-                return true;
+        if (links.stream().anyMatch((link) -> (link.containsStateNumber(n)))) {
+            return true;
         }
         return false;
     }
@@ -167,9 +166,9 @@ public class GNode extends GObject implements SSerializable {
         linkDimension.cache(context);
         cacheGlobalDimension(context);
 
-        for (GLink link : links) {
+        links.forEach((link) -> {
             link.render(ox, oy);
-        }
+        });
     }
 
     public void draw() {
@@ -183,9 +182,9 @@ public class GNode extends GObject implements SSerializable {
 
     public void drawNodeAndLink() {
 
-        for (GLink link : links) {
+        links.forEach((link) -> {
             link.draw();
-        }
+        });
 
         draw();
 
@@ -205,9 +204,9 @@ public class GNode extends GObject implements SSerializable {
 
     public void encode(SEncoder encoder) {
         encoder.write(state);
-        for(GLink link : links) {
+        links.forEach((link) -> {
             encoder.write(link);
-        }
+        });
         encoder.write(lastNodeOfRule);
     }
 }

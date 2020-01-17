@@ -153,9 +153,9 @@ public class EditorRules implements XJTreeDelegate {
     }
 
     public void ignoreSelectedRules(boolean flag) {
-        for (ElementRule r : getSelectedRules()) {
+        getSelectedRules().forEach((r) -> {
             r.ignored = flag;
-        }
+        });
         rulesTree.repaint();
         window.rulesDidChange();
     }
@@ -336,12 +336,9 @@ public class EditorRules implements XJTreeDelegate {
 
     public List<ElementRule> getSelectedRules() {
         List<ElementRule> rules = new ArrayList<ElementRule>(); // GrammarSyntaxRule objects
-        for (Object o1 : rulesTree.getSelectedNodes()) {
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) o1;
-            RuleTreeUserObject o = (RuleTreeUserObject) node.getUserObject();
-            if (o.rule != null)
-                rules.add(o.rule);
-        }
+        rulesTree.getSelectedNodes().stream().map((o1) -> (DefaultMutableTreeNode) o1).map((node) -> (RuleTreeUserObject) node.getUserObject()).filter((o) -> (o.rule != null)).forEachOrdered((o) -> {
+            rules.add(o.rule);
+        });
         return rules;
     }
 
@@ -379,11 +376,12 @@ public class EditorRules implements XJTreeDelegate {
             return matches;
 
         List<ElementRule> rules = getGrammarEngine().getRules();
-        for (ElementRule r : rules) {
+        rules.forEach((r) -> {
             String rname = r.name.toLowerCase();
-            if (rname.startsWith(match) && !matches.contains(r.name))
+            if (rname.startsWith(match) && !matches.contains(r.name)) {
                 matches.add(r.name);
-        }
+            }
+        });
         return matches;
     }
 
@@ -392,10 +390,9 @@ public class EditorRules implements XJTreeDelegate {
             return null;
 
         List<ElementReference> refs = new ArrayList<ElementReference>();
-        for (ElementReference r : getGrammarEngine().getReferences()) {
-            if (r.rule == rule)
-                refs.add(r);
-        }
+        getGrammarEngine().getReferences().stream().filter((r) -> (r.rule == rule)).forEachOrdered((r) -> {
+            refs.add(r);
+        });
         return refs;
     }
 
@@ -567,11 +564,9 @@ public class EditorRules implements XJTreeDelegate {
     }
 
     public void restoreExpandedNodes() {
-        for (String groupName : rulesTreeExpandedNodes) {
-            DefaultMutableTreeNode node = findNodeWithGroupName(groupName);
-            if (node != null)
-                rulesTree.expandPath(new TreePath(node.getPath()));
-        }
+        rulesTreeExpandedNodes.stream().map((groupName) -> findNodeWithGroupName(groupName)).filter((node) -> (node != null)).forEachOrdered((node) -> {
+            rulesTree.expandPath(new TreePath(node.getPath()));
+        });
     }
 
     public DefaultMutableTreeNode findNodeWithGroupName(String groupName) {
@@ -787,10 +782,9 @@ public class EditorRules implements XJTreeDelegate {
                 rulesTree.modifySelectionIfNecessary(e);
 
                 List<Object> selectedObjects = new ArrayList<Object>(); // RuleTreeUserObject objects
-                for (Object o : rulesTree.getSelectedNodes()) {
-                    DefaultMutableTreeNode node = (DefaultMutableTreeNode) o;
+                rulesTree.getSelectedNodes().stream().map((o) -> (DefaultMutableTreeNode) o).forEachOrdered((node) -> {
                     selectedObjects.add(node.getUserObject());
-                }
+                });
                 JPopupMenu menu = window.rulesGetContextualMenu(selectedObjects);
                 if(menu != null)
                     menu.show(e.getComponent(), e.getX(), e.getY());

@@ -69,10 +69,8 @@ public class GTimer {
 
     public void start() {
         if(timer == null) {
-            timer = new Timer(delay, new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    delegate.timerFired(GTimer.this);
-                }
+            timer = new Timer(delay, (ActionEvent e) -> {
+                delegate.timerFired(GTimer.this);
             });
             timer.start();
         } else if(!timer.isRunning()) {

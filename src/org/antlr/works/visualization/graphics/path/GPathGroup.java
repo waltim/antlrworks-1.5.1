@@ -122,9 +122,9 @@ public class GPathGroup extends GObject {
     @Override
     public void setContext(GContext context) {
         super.setContext(context);
-        for (GPath path : graphicPaths) {
+        graphicPaths.forEach((path) -> {
             path.setContext(context);
-        }
+        });
     }
 
     public void toggleShowRuleLinks() {
@@ -133,9 +133,9 @@ public class GPathGroup extends GObject {
     }
 
     public void updateShowRuleLinks() {
-        for (GPath path : graphicPaths) {
+        graphicPaths.forEach((path) -> {
             path.setShowRuleLinks(showRuleLinks);
-        }
+        });
     }
 
     public void selectPath(Point p) {
@@ -158,26 +158,25 @@ public class GPathGroup extends GObject {
 
     public List<GPath> getPathsAtPoint(Point p) {
         List<GPath> paths = new ArrayList<GPath>();
-        for (GPath path : graphicPaths) {
-            if (path.containsPoint(p))
-                paths.add(path);
-        }
+        graphicPaths.stream().filter((path) -> (path.containsPoint(p))).forEachOrdered((path) -> {
+            paths.add(path);
+        });
         return paths;
     }
 
     public void draw() {
         GPath currentPath = getCurrentPath();
 
-        for (GPath path : graphicPaths) {
+        graphicPaths.stream().map((path) -> {
             if (path != currentPath) {
                 path.deselectElement();
             } else {
                 currentPath.selectElement();
             }
-
-            if (path.isVisible() && path != currentPath)
-                path.draw(DEFAULT_PATH_WIDTH, null);
-        }
+            return path;
+        }).filter((path) -> (path.isVisible() && path != currentPath)).forEachOrdered((path) -> {
+            path.draw(DEFAULT_PATH_WIDTH, null);
+        });
 
         if(currentPath.isVisible())
             currentPath.draw(DEFAULT_PATH_WIDTH, null);

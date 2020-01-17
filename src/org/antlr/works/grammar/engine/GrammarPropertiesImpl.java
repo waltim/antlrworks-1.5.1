@@ -157,11 +157,9 @@ public class GrammarPropertiesImpl implements GrammarProperties {
     private List<String> getDeclaredTokenNames() {
         List<String> names = new ArrayList<String>();
         if(blocks != null) {
-            for (ElementBlock block : blocks) {
-                if (block.isTokenBlock) {
-                    names.addAll(block.getDeclaredTokensAsString());
-                }
-            }
+            blocks.stream().filter((block) -> (block.isTokenBlock)).forEachOrdered((block) -> {
+                names.addAll(block.getDeclaredTokensAsString());
+            });
         }
         return names;
     }
@@ -184,9 +182,9 @@ public class GrammarPropertiesImpl implements GrammarProperties {
     public synchronized List<String> getRuleNames() {
         List<String> names = new ArrayList<String>();
         if(rules != null) {
-            for (ElementRule rule : rules) {
+            rules.forEach((rule) -> {
                 names.add(rule.name);
-            }
+            });
         }
         return names;
     }
@@ -201,10 +199,7 @@ public class GrammarPropertiesImpl implements GrammarProperties {
     public int getNumberOfRulesWithErrors() {
         int count = 0;
         if(getRules() != null) {
-            for (ElementRule rule : getRules()) {
-                if (rule.hasErrors())
-                    count++;
-            }
+            count = getRules().stream().filter((rule) -> (rule.hasErrors())).map((_item) -> 1).reduce(count, Integer::sum);
         }
         return count;
     }
@@ -212,10 +207,7 @@ public class GrammarPropertiesImpl implements GrammarProperties {
     public int getNumberOfErrors() {
         int count = 0;
         if(getRules() != null) {
-            for (ElementRule rule : getRules()) {
-                if (rule.hasErrors())
-                    count+=rule.getErrors().size();
-            }
+            count = getRules().stream().filter((rule) -> (rule.hasErrors())).map((rule) -> rule.getErrors().size()).reduce(count, Integer::sum);
         }
         return count;
     }
@@ -269,9 +261,9 @@ public class GrammarPropertiesImpl implements GrammarProperties {
         // Read the tokens from the file if it exists
         List<ATEToken> tokens = parsePropertiesString(XJUtils.getStringFromFile(filePath));
         // Add each token name to the list of tokenVocabNames
-        for (ATEToken t : tokens) {
+        tokens.forEach((t) -> {
             tokenNames.add(t.getAttribute());
-        }
+        });
 
         return true;
     }
@@ -306,10 +298,10 @@ public class GrammarPropertiesImpl implements GrammarProperties {
         if(getRules() == null)
             return;
 
-        for (ElementRule r : getRules()) {
+        getRules().forEach((r) -> {
             // hasLeftRecursion has a side-effect to analyze the rule
             r.hasLeftRecursion();
-        }
+        });
     }
 
     private void rebuildDuplicateRulesList() {
@@ -346,13 +338,10 @@ public class GrammarPropertiesImpl implements GrammarProperties {
         if(references == null)
             return;
 
-        for (ElementReference ref : references) {
-            if (existingReferences.contains(ref.token.getAttribute())) continue;
-            if (!engine.getGrammarsOverriddenByRule(ref.token.getAttribute()).isEmpty()) continue;
+        references.stream().filter((ref) -> !(existingReferences.contains(ref.token.getAttribute()))).filter((ref) -> !(!engine.getGrammarsOverriddenByRule(ref.token.getAttribute()).isEmpty())).filter((ref) -> !(!engine.getRootEngine().getGrammarsOverriddenByRule(ref.token.getAttribute()).isEmpty())).forEachOrdered((ref) -> {
             // also check from the root grammar
-            if (!engine.getRootEngine().getGrammarsOverriddenByRule(ref.token.getAttribute()).isEmpty()) continue;
             undefinedReferences.add(ref);
-        }
+        });
     }
 
     public void updateAll() {
@@ -390,9 +379,9 @@ public class GrammarPropertiesImpl implements GrammarProperties {
 
         this.name = parser.getName();
 
-        for(ElementRule r : rules) {
+        rules.forEach((r) -> {
             r.setEngine(engine);
-        }
+        });
     }
 
     public List<String> getAllGeneratedNames() throws Exception {
@@ -400,17 +389,17 @@ public class GrammarPropertiesImpl implements GrammarProperties {
         Grammar g = antlrEngine.getDefaultGrammar();
         if(g != null) {
             names.add(g.getRecognizerName());
-            for(Grammar gd : g.getDelegates()) {
+            g.getDelegates().forEach((gd) -> {
                 names.add(gd.getRecognizerName());
-            }
+            });
         }
 
         Grammar lexer = antlrEngine.getLexerGrammar();
         if(lexer != null) {
             names.add(lexer.getRecognizerName());
-            for(Grammar gd : lexer.getDelegates()) {
+            lexer.getDelegates().forEach((gd) -> {
                 names.add(gd.getRecognizerName());
-            }
+            });
         }
         return names;
     }

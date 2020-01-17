@@ -146,9 +146,9 @@ public class GoToRule extends OverlayObject {
             ruleNameField.setForeground(Color.black);
         }
 
-        for (String rule : rules) {
+        rules.forEach((rule) -> {
             matchingRuleListModel.addElement(rule);
-        }
+        });
         matchingRuleList.setSelectedIndex(0);
 
         resizeMatchingRules();

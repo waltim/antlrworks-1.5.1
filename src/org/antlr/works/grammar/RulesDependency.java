@@ -97,24 +97,20 @@ public class RulesDependency extends GrammarDOTTab {
         if(refs == null || refs.isEmpty())
             return;
 
-        for (ElementReference reference : refs) {
+        refs.forEach((reference) -> {
             String refRuleName = reference.token.getAttribute();
             String visitedRef = rule.name + " -> " + refRuleName;
-
-            if (visitedRefs.contains(visitedRef))
-                continue;
-
-            if (ATEToken.isLexerName(reference.token.getAttribute()) && !includeLexerRefs)
-                continue;
-
-            visitedRefs.add(visitedRef);
-
-            dependency.append(visitedRef);
-            dependency.append(";\n");
-
-            if (!visitedRules.contains(refRuleName))
-                buildGraph(window.getGrammarEngine().getRuleWithName(refRuleName));
-        }
+            if (!(visitedRefs.contains(visitedRef))) {
+                if (!(ATEToken.isLexerName(reference.token.getAttribute()) && !includeLexerRefs)) {
+                    visitedRefs.add(visitedRef);
+                    dependency.append(visitedRef);
+                    dependency.append(";\n");
+                    if (!visitedRules.contains(refRuleName)) {
+                        buildGraph(window.getGrammarEngine().getRuleWithName(refRuleName));
+                    }
+                }
+            }
+        });
     }
 
     public String getTabName() {

@@ -50,9 +50,9 @@ public class TipsOverlay extends OverlayObject implements ToolTipListDelegate {
 
     public void setTips(List<String> tips) {
         toolTip.clear();
-        for (String tip : tips) {
+        tips.forEach((tip) -> {
             toolTip.addLine(tip);
-        }
+        });
         toolTip.selectFirstLine();
     }
 

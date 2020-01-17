@@ -106,21 +106,21 @@ public class DecisionDFAEngine {
         if(g == null) return;
 
         if(g.decisionsWhoseDFAsUsesSemPreds != null) {
-            for(DFA dfa : g.decisionsWhoseDFAsUsesSemPreds) {
+            g.decisionsWhoseDFAsUsesSemPreds.forEach((dfa) -> {
                 usesSemPreds.add(dfa.getDecisionNumber());
-            }
+            });
         }
 
         if(g.decisionsWhoseDFAsUsesSynPreds != null) {
-            for(DFA dfa : g.decisionsWhoseDFAsUsesSynPreds) {
+            g.decisionsWhoseDFAsUsesSynPreds.forEach((dfa) -> {
                 usesSynPreds.add(dfa.getDecisionNumber());
-            }
+            });
         }
 
         // Get the position information about each DFA decision
-        for(Integer lineIndex : lineIndexes) {
+        lineIndexes.forEach((lineIndex) -> {
             addPositions(lineIndex, g.getLookaheadDFAColumnsForLineInFile(lineIndex));
-        }
+        });
     }
 
     public void addPositions(Integer line, List<Integer> columnsForLineInFile) {

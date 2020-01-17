@@ -489,10 +489,8 @@ public class GrammarWindowMenu implements XJMenuItemDelegate {
                 if(isDebuggerRunning()) {
                     // FIX AW-79
                     // Note: that's weird, but I have to invoke this later otherwise the menu is not disabled
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            item.setEnabled(false);
-                        }
+                    SwingUtilities.invokeLater(() -> {
+                        item.setEnabled(false);
                     });
                 }
                 break;

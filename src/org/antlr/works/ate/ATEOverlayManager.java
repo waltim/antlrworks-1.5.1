@@ -180,10 +180,12 @@ public abstract class ATEOverlayManager {
         }
 
         public void draw(Graphics2D g) {
-            for (Color c : shapes.keySet()) {
+            shapes.keySet().stream().map((c) -> {
                 g.setColor(c);
+                return c;
+            }).forEachOrdered((c) -> {
                 g.draw(shapes.get(c));
-            }
+            });
         }
 
         public void begin() {

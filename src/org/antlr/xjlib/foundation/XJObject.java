@@ -85,10 +85,7 @@ public class XJObject {
         if(observers == null)
             return;
 
-        for (Object observer : observers) {
-            if (observer == sender)
-                continue;
-
+        observers.stream().filter((observer) -> !(observer == sender)).forEachOrdered((observer) -> {
             try {
                 XJObject object = (XJObject) observer;
                 object.observeValueForKey(sender, key, value);
@@ -100,7 +97,7 @@ public class XJObject {
                     // ignore
                 }
             }
-        }
+        });
     }
 
     public void observeValueForKey(Object sender, String key, Object value) {

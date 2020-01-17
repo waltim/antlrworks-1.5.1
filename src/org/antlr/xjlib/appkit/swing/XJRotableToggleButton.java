@@ -231,9 +231,9 @@ public class XJRotableToggleButton extends JComponent {
     }
 
     public void triggerAction() {
-        for(ActionListener al : actionListeners) {
+        actionListeners.forEach((al) -> {
             al.actionPerformed(new ActionEvent(this, 0, null));
-        }
+        });
     }
 
     private void drawStandardBackground(Graphics2D g2d) {

@@ -84,9 +84,8 @@ public class FATransition implements SSerializable {
     }
 
     public boolean containsStateNumber(int n) {
-        for (Integer state : skippedStates) {
-            if (state == n)
-                return true;
+        if (skippedStates.stream().anyMatch((state) -> (state == n))) {
+            return true;
         }
         return false;
     }
@@ -98,9 +97,9 @@ public class FATransition implements SSerializable {
         encoder.write(loop);
         encoder.write(externalRuleRef);
         if(skippedStates != null) {
-            for(Integer s : skippedStates) {
+            skippedStates.forEach((s) -> {
                 encoder.write(s);
-            }
+            });
         }
     }
 

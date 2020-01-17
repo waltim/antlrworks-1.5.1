@@ -265,15 +265,15 @@ public class GView extends XJView implements XJMenuItemDelegate, GTimerDelegate,
     }
 
     public void showAndAjustPositionToMagnetics(Vector2D position) {
-        for (GMagnetic magnetic : magnetics) {
+        magnetics.forEach((magnetic) -> {
             magnetic.showAndAjust(position, getRealSize());
-        }
+        });
     }
 
     public void hideAllMagnetics() {
-        for (GMagnetic magnetic : magnetics) {
+        magnetics.forEach((magnetic) -> {
             magnetic.setVisible(false);
-        }
+        });
     }
 
     public void scrollElementToVisible(GElement element) {
@@ -368,10 +368,9 @@ public class GView extends XJView implements XJMenuItemDelegate, GTimerDelegate,
     public void drawMagnetics(Graphics2D g2d) {
         g2d.setColor(Color.yellow);
 
-        for (GMagnetic magnetic : magnetics) {
-            if (magneticsVisible || magnetic.isVisible())
-                magnetic.draw(g2d, getRealSize());
-        }
+        magnetics.stream().filter((magnetic) -> (magneticsVisible || magnetic.isVisible())).forEachOrdered((magnetic) -> {
+            magnetic.draw(g2d, getRealSize());
+        });
     }
 
     public void paintComponent(Graphics g) {
@@ -439,33 +438,35 @@ public class GView extends XJView implements XJMenuItemDelegate, GTimerDelegate,
         if(rootElement == null || rootElement.getElements() == null)
             return;
 
-        for (GElement element : rootElement.getElements()) {
+        rootElement.getElements().forEach((element) -> {
             boolean selected = Rect.intersect(rectangle, element.bounds());
             element.setSelected(selected);
             if (selected)
                 addSelectedElement(element);
             else
                 removeSelectedElement(element);
-        }
+        });
     }
 
     public void selectAllElements(boolean select) {
         if(rootElement == null)
             return;
 
-        for (GElement element : rootElement.getElements()) {
+        rootElement.getElements().stream().map((element) -> {
             element.setSelected(select);
+            return element;
+        }).forEachOrdered((element) -> {
             if (select)
                 addSelectedElement(element);
             else
                 removeSelectedElement(element);
-        }
+        });
     }
 
     public void moveSelectedElements(double dx, double dy) {
-        for (GElement element : selectionTimer.getElements()) {
+        selectionTimer.getElements().forEach((element) -> {
             element.move(dx, dy);
-        }
+        });
         autoAdjustSize();
     }
 

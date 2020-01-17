@@ -129,14 +129,16 @@ public class GrammarDebuggerDelegate implements DebuggerDelegate {
 
     public Map<Integer, Set<String>> getBreakpoints() {
         Map<Integer,Set<String>> breakpoints = new HashMap<Integer, Set<String>>();
-        for(Integer line : window.getBreakpoints()) {
+        window.getBreakpoints().stream().map((line) -> {
             Set<String> names = breakpoints.get(line);
             if(names == null) {
                 names = new HashSet<String>();
                 breakpoints.put(line, names);
             }
+            return names;
+        }).forEachOrdered((names) -> {
             names.add(XJUtils.getPathByDeletingPathExtension(window.getGrammarFileName()));
-        }
+        });
         return breakpoints;
     }
 

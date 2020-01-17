@@ -274,9 +274,9 @@ public class XJPreferences {
     }
 
     public void applyPreferences() {
-        for (String s : bindings.keySet()) {
+        bindings.keySet().forEach((s) -> {
             applyPreference(s);
-        }
+        });
     }
 
     public void applyPreference(String key) {

@@ -149,18 +149,16 @@ public class InterpreterTab extends GrammarWindowTab implements Runnable, AWTree
     public JButton createRunButton() {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconRun());
         button.setToolTipText("Run");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(AWPrefs.isAlertInterpreterLimitation()) {
-                    XJAlert alert = XJAlert.createInstance();
-                    alert.setDisplayDoNotShowAgainButton(true);
-                    alert.showSimple(getContainer(), "Warning", "The interpreterTab does not run actions nor evaluate syntactic predicates." +
-                            "\nUse the debugger if you want to use these ANTLR features.");
-                    AWPrefs.setAlertInterpreterLimitation(!alert.isDoNotShowAgain());
-                }
-                StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_INTERPRETER_BUTTON);
-                interpret();
+        button.addActionListener((ActionEvent event) -> {
+            if(AWPrefs.isAlertInterpreterLimitation()) {
+                XJAlert alert = XJAlert.createInstance();
+                alert.setDisplayDoNotShowAgainButton(true);
+                alert.showSimple(getContainer(), "Warning", "The interpreterTab does not run actions nor evaluate syntactic predicates." +
+                        "\nUse the debugger if you want to use these ANTLR features.");
+                AWPrefs.setAlertInterpreterLimitation(!alert.isDoNotShowAgain());
             }
+            StatisticsAW.shared().recordEvent(StatisticsAW.EVENT_INTERPRETER_BUTTON);
+            interpret();
         });
         return button;
     }
@@ -169,12 +167,10 @@ public class InterpreterTab extends GrammarWindowTab implements Runnable, AWTree
         rulesCombo = new JComboBox();
         rulesCombo.setFocusable(false);
         rulesCombo.setMaximumSize(new Dimension(Short.MAX_VALUE, rulesCombo.getPreferredSize().height));
-        rulesCombo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                String rule = (String)rulesCombo.getSelectedItem();
-                if(rule != null)
-                    startSymbol = rule;
-            }
+        rulesCombo.addActionListener((ActionEvent event) -> {
+            String rule = (String)rulesCombo.getSelectedItem();
+            if(rule != null)
+                startSymbol = rule;
         });
         return rulesCombo;
     }
@@ -197,10 +193,8 @@ public class InterpreterTab extends GrammarWindowTab implements Runnable, AWTree
         JButton button = new JButton("Guess");
         button.setFocusable(false);
         button.setToolTipText("Find the name of all rules containing an action with channel=99");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                window.findTokensToIgnore(true);
-            }
+        button.addActionListener((ActionEvent event) -> {
+            window.findTokensToIgnore(true);
         });
         box.add(Box.createHorizontalGlue());
         box.addElement(button);
@@ -222,9 +216,9 @@ public class InterpreterTab extends GrammarWindowTab implements Runnable, AWTree
 
         rulesCombo.removeAllItems();
         if(rules != null) {
-            for (ElementRule rule : rules) {
+            rules.forEach((rule) -> {
                 rulesCombo.addItem(rule.toString());
-            }
+            });
         }
 
         if(selectedItem != null)
@@ -234,13 +228,11 @@ public class InterpreterTab extends GrammarWindowTab implements Runnable, AWTree
     public void updateIgnoreTokens(List<ElementRule> rules) {
         StringBuilder sb = new StringBuilder();
         if(rules != null) {
-            for (ElementRule r : rules) {
-                if (r.ignored) {
-                    if (sb.length() > 0)
-                        sb.append(" ");
-                    sb.append(r.name);
-                }
-            }
+            rules.stream().filter((r) -> (r.ignored)).forEachOrdered((r) -> {
+                if (sb.length() > 0)
+                    sb.append(" ");
+                sb.append(r.name);
+            });
         }
         if(sb.length() == 0)
             tokensToIgnoreLabel.setText("-");

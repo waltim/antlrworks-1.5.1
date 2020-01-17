@@ -73,13 +73,12 @@ public class FindMenu {
         Usages usage = new Usages(delegate, token);
         delegate.addUsagesTab(usage);
 
-        for (ATEToken ateToken : delegate.getTokens()) {
-            if (ateToken.getAttribute().equals(token.getAttribute())) {
-                ElementRule matchedRule = delegate.getEditorRules().getEnclosingRuleAtPosition(ateToken.getStartIndex());
-                if (matchedRule != null)
-                    usage.addMatch(matchedRule, ateToken);
+        delegate.getTokens().stream().filter((ateToken) -> (ateToken.getAttribute().equals(token.getAttribute()))).forEachOrdered((ateToken) -> {
+            ElementRule matchedRule = delegate.getEditorRules().getEnclosingRuleAtPosition(ateToken.getStartIndex());
+            if (matchedRule != null) {
+                usage.addMatch(matchedRule, ateToken);
             }
-        }
+        });
     }
 
 }

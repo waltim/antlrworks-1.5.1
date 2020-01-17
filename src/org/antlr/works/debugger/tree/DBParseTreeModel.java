@@ -78,9 +78,9 @@ public class DBParseTreeModel extends AWTreeModel implements XJNotificationObser
     }
 
     public void fireDataChanged() {
-        for (DBParseTreeModelListener listener : listeners) {
+        listeners.forEach((listener) -> {
             listener.modelChanged(this);
-        }
+        });
     }
 
     public void initRules() {
@@ -236,9 +236,9 @@ public class DBParseTreeModel extends AWTreeModel implements XJNotificationObser
 
         public void end(boolean success) {
             Color color = getColor(success);
-            for (DBTreeNode node : nodes) {
+            nodes.forEach((node) -> {
                 node.setColor(color);
-            }
+            });
         }
 
         public AWTreeNode getLastNode() {

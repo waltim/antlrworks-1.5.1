@@ -129,10 +129,8 @@ public class AWTreePanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconGraph());
         button.setToolTipText("Display as Graph");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                toggleGraph();
-            }
+        button.addActionListener((ActionEvent event) -> {
+            toggleGraph();
         });
         return button;
     }
@@ -141,10 +139,8 @@ public class AWTreePanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconExpandAll());
         button.setToolTipText("Expand All");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                TreeUtilities.expandAll(tree);
-            }
+        button.addActionListener((ActionEvent event) -> {
+            TreeUtilities.expandAll(tree);
         });
         return button;
     }
@@ -153,10 +149,8 @@ public class AWTreePanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconCollapseAll());
         button.setToolTipText("Collapse All");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                TreeUtilities.collapseAll(tree);
-            }
+        button.addActionListener((ActionEvent event) -> {
+            TreeUtilities.collapseAll(tree);
         });
         return button;
     }
@@ -194,10 +188,8 @@ public class AWTreePanel extends JPanel {
         JButton button = XJRollOverButton.createMediumButton(IconManager.shared().getIconListTree());
         button.setToolTipText("Display as List");
         button.setFocusable(false);
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                toggleGraph();
-            }
+        button.addActionListener((ActionEvent event) -> {
+            toggleGraph();
         });
         return button;
     }
@@ -209,14 +201,11 @@ public class AWTreePanel extends JPanel {
         slider.setMaximum(200);
         slider.setValue(100);
 
-        slider.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent event) {
-                JSlider slider = (JSlider)event.getSource();
-
-                treeGraphView.setZoom((float)slider.getValue()/100);
-                treeGraphView.repaint();
-                treeGraphView.revalidate();
-            }
+        slider.addChangeListener((ChangeEvent event) -> {
+            JSlider slider1 = (JSlider)event.getSource();
+            treeGraphView.setZoom((float) slider1.getValue() / 100);
+            treeGraphView.repaint();
+            treeGraphView.revalidate();
         });
         return slider;
     }

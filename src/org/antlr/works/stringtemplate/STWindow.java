@@ -247,9 +247,9 @@ public class STWindow extends XJWindow
     }
 
     public void windowActivated() {
-        for(GrammarWindowTab et : tabs) {
+        tabs.forEach((et) -> {
             et.editorActivated();
-        }
+        });
     }
 
 
@@ -424,11 +424,12 @@ public class STWindow extends XJWindow
         List<String> matches = new ArrayList<String>();
         if (getRules() == null) return matches;
 
-        for (ElementTemplateRule r : getRules()) {
+        getRules().forEach((r) -> {
             String rname = r.name.toLowerCase();
-            if (rname.startsWith(match) && !matches.contains(r.name))
+            if (rname.startsWith(match) && !matches.contains(r.name)) {
                 matches.add(r.name);
-        }
+            }
+        });
         return matches;
     }
 

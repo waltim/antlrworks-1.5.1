@@ -100,21 +100,21 @@ public class XJMainMenuBar implements XJMenuItemDelegate {
     }
 
     public synchronized static void refreshAllRecentFilesMenu() {
-        for (XJMainMenuBar mmb : mmbs) {
+        mmbs.forEach((mmb) -> {
             mmb.rebuildRecentFilesMenu();
-        }
+        });
     }
 
     public synchronized static void refreshAllMenuBars() {
-        for (XJMainMenuBar mmb : mmbs) {
+        mmbs.forEach((mmb) -> {
             mmb.refresh();
-        }
+        });
     }
 
     public synchronized static void setActiveWindowToAllMenuBar(XJWindow window) {
-        for (XJMainMenuBar mmb : mmbs) {
+        mmbs.forEach((mmb) -> {
             mmb.setActiveWindow(window);
-        }
+        });
     }
 
     public static boolean isRecentFilesItem(XJMenuItem item) {
@@ -150,7 +150,9 @@ public class XJMainMenuBar implements XJMenuItemDelegate {
         refreshMenuState(menuEdit);
         refreshMenuState(menuHelp);
 
-        for (XJMenu customMenu : customMenus) refreshMenuState(customMenu);
+        customMenus.forEach((customMenu) -> {
+            refreshMenuState(customMenu);
+        });
     }
 
     public void refreshMenuEditState() {
@@ -449,21 +451,17 @@ public class XJMainMenuBar implements XJMenuItemDelegate {
 
             case MI_SAVE:
                 if(activeWindow != null) {
-                    for(XJDocument doc : activeWindow.getDocuments()) {
-                        if(doc.save(false)) {
-                            doc.changeReset();
-                        }
-                    }
+                    activeWindow.getDocuments().stream().filter((doc) -> (doc.save(false))).forEachOrdered((doc) -> {
+                        doc.changeReset();
+            });
                 }
                 break;
 
             case MI_SAVEAS:
                 if(activeWindow != null) {
-                    for(XJDocument doc : activeWindow.getDocuments()) {
-                        if(doc.save(true)) {
-                            doc.changeReset();
-                        }
-                    }
+                    activeWindow.getDocuments().stream().filter((doc) -> (doc.save(true))).forEachOrdered((doc) -> {
+                        doc.changeReset();
+            });
                 }
                 break;
 

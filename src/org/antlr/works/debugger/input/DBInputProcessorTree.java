@@ -92,10 +92,9 @@ public class DBInputProcessorTree implements DBInputProcessor, XJNotificationObs
     }
 
     public void applyColor(Color c) {
-        for (NodeInfo info : nodeInfoForToken.values()) {
-            if (info.node != null)
-                info.node.setColor(c);
-        }
+        nodeInfoForToken.values().stream().filter((info) -> (info.node != null)).forEachOrdered((info) -> {
+            info.node.setColor(c);
+        });
     }
 
     public void reset() {

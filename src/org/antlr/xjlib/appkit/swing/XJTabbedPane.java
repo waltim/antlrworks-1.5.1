@@ -96,8 +96,8 @@ public class XJTabbedPane extends JPanel {
     }
 
     public boolean hasComponent(Component component) {
-        for(Pane p : panes) {
-            if(p.c == component) return true;
+        if (panes.stream().anyMatch((p) -> (p.c == component))) {
+            return true;
         }
         return false;
     }
@@ -158,10 +158,8 @@ public class XJTabbedPane extends JPanel {
 
             JPopupMenu popup = new JPopupMenu();
             JMenuItem item = new JMenuItem("Close");
-            item.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    removeComponent(getSelectedComponent());
-                }
+            item.addActionListener((ActionEvent event1) -> {
+                removeComponent(getSelectedComponent());
             });
             popup.add(item);
             popup.show(event.getComponent(), event.getX(), event.getY());

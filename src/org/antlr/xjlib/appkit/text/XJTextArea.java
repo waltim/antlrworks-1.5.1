@@ -46,10 +46,8 @@ public class XJTextArea extends XJControl {
 
     public XJTextArea() {
         jTextArea = new JTextArea();
-        jTextArea.addCaretListener(new CaretListener() {
-            public void caretUpdate(CaretEvent e) {
-                keyValueChanged(KV_TEXT_STRING, jTextArea.getText());
-            }
+        jTextArea.addCaretListener((CaretEvent e) -> {
+            keyValueChanged(KV_TEXT_STRING, jTextArea.getText());
         });
     }
 

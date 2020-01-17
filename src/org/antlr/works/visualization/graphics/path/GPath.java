@@ -75,9 +75,9 @@ public class GPath extends GObject {
 
     public void setContext(GContext context) {
         super.setContext(context);
-        for (GPathElement element : elements) {
+        elements.forEach((element) -> {
             element.setContext(context);
-        }
+        });
     }
 
     public void setVisible(boolean flag) {
@@ -106,10 +106,7 @@ public class GPath extends GObject {
 
     public int getNumberOfVisibleElements() {
         int count = 0;
-        for (GPathElement element : elements) {
-            if (element.isVisible())
-                count++;
-        }
+        count = elements.stream().filter((element) -> (element.isVisible())).map((_item) -> 1).reduce(count, Integer::sum);
         return count;
     }
 
@@ -124,18 +121,9 @@ public class GPath extends GObject {
         context.linkColor = context.nodeColor;
         context.setLineWidth(width);
 
-        for (GPathElement element : elements) {
-            if (ignoreElements != null && ignoreElements.contains(element))
-                continue;
-
-            if (!element.isVisible())
-                continue;
-
-            if (element.isRuleLink && !ruleLink || ruleLink && !element.isRuleLink)
-                continue;
-
+        elements.stream().filter((element) -> !(ignoreElements != null && ignoreElements.contains(element))).filter((element) -> !(!element.isVisible())).filter((element) -> !(element.isRuleLink && !ruleLink || ruleLink && !element.isRuleLink)).forEachOrdered((element) -> {
             element.draw();
-        }
+        });
     }
 
     public void drawSelectedElement() {
@@ -158,18 +146,17 @@ public class GPath extends GObject {
     }
 
     public boolean containsPoint(Point p) {
-        for (GPathElement element : elements) {
-            if (element.containsPoint(p))
-                return true;
+        if (elements.stream().anyMatch((element) -> (element.containsPoint(p)))) {
+            return true;
         }
         return false;
     }
 
     public Set<GObject> getObjects() {
         Set<GObject> objects = new HashSet<GObject>();
-        for (GPathElement element : elements) {
+        elements.forEach((element) -> {
             objects.addAll(element.getObjects());
-        }
+        });
         return objects;
     }
 

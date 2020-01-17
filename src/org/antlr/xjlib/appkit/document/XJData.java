@@ -67,9 +67,9 @@ public class XJData extends XJObject {
     }
 
     public void dataChanged() {
-        for (String s : dictionary.keySet()) {
+        dictionary.keySet().forEach((s) -> {
             keyValueChanged(this, s, dictionary.get(s));
-        }
+        });
     }
 
     public void observeValueForKey(Object sender, String key, Object value) {

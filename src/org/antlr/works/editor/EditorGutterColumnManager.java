@@ -90,27 +90,27 @@ public class EditorGutterColumnManager extends ATEGutterColumnManager {
             List<ATEGutterItem> items = new ArrayList<ATEGutterItem>();
             List<ElementRule> rules = window.getGrammarEngine().getRules();
             if(rules != null) {
-                for(ElementRule r : rules) {
+                rules.forEach((r) -> {
                     items.add(r);
-                }
+                });
             }
             return items;
         } else {
             List<Integer> sortedKeys = new ArrayList<Integer>(breakpoints.keySet());
             Collections.sort(sortedKeys);
             List<ATEGutterItem> sortedItems = new ArrayList<ATEGutterItem>();
-            for(Integer k : sortedKeys) {
+            sortedKeys.forEach((k) -> {
                 sortedItems.add(breakpoints.get(k));
-            }
+            });
             return sortedItems;
         }
     }
 
     public Set<Integer> getBreakpoints() {
         Set<Integer> lines = new HashSet<Integer>();
-        for(ATEGutterItem item : getGutterItems(EditorGutterColumnManager.BREAKPOINTS)) {
+        getGutterItems(EditorGutterColumnManager.BREAKPOINTS).forEach((item) -> {
             lines.add(((BreakpointGutterItem)item).line);
-        }
+        });
         return lines;
     }
 
@@ -137,9 +137,7 @@ public class EditorGutterColumnManager extends ATEGutterColumnManager {
 
         public int getItemWidth() {
             int width = 0;
-            for(int type : getItemTypes()) {
-                width += getItemIcon(type).getIconWidth();
-            }
+            width = getItemTypes().stream().map((type) -> getItemIcon(type).getIconWidth()).reduce(width, Integer::sum);
             return width;
         }
 

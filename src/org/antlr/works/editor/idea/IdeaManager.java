@@ -99,12 +99,9 @@ public class IdeaManager {
 
     public List<IdeaAction> generateIdeaActions(int position) {
         List<IdeaAction> actions = new ArrayList<IdeaAction>();
-        for (IdeaProvider provider : providers) {
-            List<IdeaAction> pactions = provider.ideaProviderGetActions(position);
-            if (pactions != null && !pactions.isEmpty()) {
-                actions.addAll(pactions);
-            }
-        }
+        providers.stream().map((provider) -> provider.ideaProviderGetActions(position)).filter((pactions) -> (pactions != null && !pactions.isEmpty())).forEachOrdered((pactions) -> {
+            actions.addAll(pactions);
+        });
         return actions;
     }
 

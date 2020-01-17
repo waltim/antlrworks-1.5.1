@@ -61,9 +61,9 @@ public class EditorOverlayManager extends ATEOverlayManager {
         if(items == null)
             return;
 
-        for(EditorInspectorItem item : items) {
+        items.forEach((item) -> {
             drawUnderlineAtIndexes(g, item.color, item.startIndex, item.endIndex, item.shape);
-        }
+        });
     }
 
 }

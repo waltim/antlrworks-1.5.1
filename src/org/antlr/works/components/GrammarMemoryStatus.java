@@ -55,16 +55,12 @@ public class GrammarMemoryStatus extends JPanel {
         add(b, BorderLayout.CENTER);
 
         gcButton.setFocusable(false);
-        gcButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                Runtime.getRuntime().gc();
-            }
+        gcButton.addActionListener((ActionEvent event) -> {
+            Runtime.getRuntime().gc();
         });
 
-        timer = new Timer(4000, new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                refresh();
-            }
+        timer = new Timer(4000, (ActionEvent event) -> {
+            refresh();
         });
         timer.start();
 

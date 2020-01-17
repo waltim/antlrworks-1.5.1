@@ -162,13 +162,11 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
         launchArguments = args;
         useDesktopMode = XJApplication.delegate.useDesktopMode();
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                XJApplication.startingUp = false;
-                XJApplication.delegate.appDidLaunch(launchArguments, documentsToOpenAtStartup);
-                documentsToOpenAtStartup.clear();
-                new java.util.Timer().schedule(new ScheduledTimer(), 1000, 1000*60*SCHEDULED_TIMER_MINUTES);
-            }
+        SwingUtilities.invokeLater(() -> {
+            XJApplication.startingUp = false;
+            XJApplication.delegate.appDidLaunch(launchArguments, documentsToOpenAtStartup);
+            documentsToOpenAtStartup.clear();
+            new java.util.Timer().schedule(new ScheduledTimer(), 1000, 1000*60*SCHEDULED_TIMER_MINUTES);
         });
     }
 
@@ -211,9 +209,9 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
         protected boolean startup = true;
 
         public void run() {
-            for (XJScheduledTimer timer : scheduledTimers) {
+            scheduledTimers.forEach((timer) -> {
                 timer.fire(startup, SCHEDULED_TIMER_MINUTES);
-            }
+            });
 
             startup = false;
         }
@@ -334,8 +332,8 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
     public static boolean handlesDocument(XJDocument doc) {
         if(doc == null) return false;
         
-        for(XJDocumentFactory factory : documentFactories) {
-            if(factory.handlesPath(doc.getDocumentPath())) return true;
+        if (documentFactories.stream().anyMatch((factory) -> (factory.handlesPath(doc.getDocumentPath())))) {
+            return true;
         }
         return false;
     }
@@ -351,17 +349,17 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
 
     public List getDocumentExtensions() {
         List<List> ext = new ArrayList<List>();
-        for (XJDocumentFactory factory : documentFactories) {
+        documentFactories.forEach((factory) -> {
             ext.add(factory.getExtensions());
-        }
+        });
         return ext;
     }
 
     public List<String> getDocumentDescriptions() {
         List<String> descr = new ArrayList<String>();
-        for (XJDocumentFactory factory : documentFactories) {
+        documentFactories.forEach((factory) -> {
             descr.add(factory.getDescriptionString());
-        }
+        });
         return descr;
     }
 
@@ -555,10 +553,7 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
 
     public int getNumberOfNonAuxiliaryWindows() {
         int count = 0;
-        for (XJWindow window : windows) {
-            if (!window.isAuxiliaryWindow())
-                count++;
-        }
+        count = windows.stream().filter((window) -> (!window.isAuxiliaryWindow())).map((_item) -> 1).reduce(count, Integer::sum);
         return count;
     }
 
@@ -586,11 +581,9 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
 
     public List<XJWindow> getWindowsInWindowMenu() {
         List<XJWindow> wim = new ArrayList<XJWindow>();
-        for(XJWindow w : windows) {
-            if(w.shouldAppearsInWindowMenu()) {
-                wim.add(w);
-            }
-        }
+        windows.stream().filter((w) -> (w.shouldAppearsInWindowMenu())).forEachOrdered((w) -> {
+            wim.add(w);
+        });
         return wim;
     }
 
@@ -608,9 +601,9 @@ public class XJApplication extends XJObject implements XJApplicationInterface, X
 
     public static class AutoSaveTimer implements XJScheduledTimerDelegate {
         public void scheduledTimerFired(boolean startup) {
-            for(XJWindow window : windows) {
+            windows.forEach((window) -> {
                 window.saveAll();
-            }
+            });
         }
     }
 

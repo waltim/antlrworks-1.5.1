@@ -348,10 +348,12 @@ public class GrammarSyntaxParser extends ATESyntaxParser {
             block.parse();
             if(block.isTokenBlock) {
                 List<ATEToken> tokens = block.getDeclaredTokens();
-                for (ATEToken lexerToken : tokens) {
+                tokens.stream().map((lexerToken) -> {
                     lexerToken.type = GrammarSyntaxLexer.TOKEN_DECL;
+                    return lexerToken;
+                }).forEachOrdered((lexerToken) -> {
                     addDeclaration(lexerToken);
-                }
+                });
             }
             return true;
         }

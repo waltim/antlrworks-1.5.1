@@ -61,9 +61,9 @@ public class GrammarEditorKit extends StyledEditorKit
     }
 
     public void close() {
-        for(ATERenderingView v : views) {
+        views.forEach((v) -> {
             v.close();
-        }
+        });
         views.clear();
         window = null;
     }

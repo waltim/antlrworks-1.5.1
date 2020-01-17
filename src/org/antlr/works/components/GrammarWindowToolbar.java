@@ -128,58 +128,40 @@ public class GrammarWindowToolbar implements XJNotificationObserver {
     }
 
     public void addActions() {
-        backward.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.goToBackward();
-            }
+        backward.addActionListener((ActionEvent e) -> {
+            window.goToBackward();
         });
 
-        forward.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.goToForward();
-            }
+        forward.addActionListener((ActionEvent e) -> {
+            window.goToForward();
         });
 
-        sort.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.toggleRulesSorting();
-            }
+        sort.addActionListener((ActionEvent e) -> {
+            window.toggleRulesSorting();
         });
 
-        sd.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.toggleSyntaxDiagram();
-            }
+        sd.addActionListener((ActionEvent e) -> {
+            window.toggleSyntaxDiagram();
         });
 
-        coloring.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.toggleSyntaxColoring();
-            }
+        coloring.addActionListener((ActionEvent e) -> {
+            window.toggleSyntaxColoring();
         });
 
-        ideas.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.toggleIdeas();
-            }
+        ideas.addActionListener((ActionEvent e) -> {
+            window.toggleIdeas();
         });
 
-        find.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.find();
-            }
+        find.addActionListener((ActionEvent e) -> {
+            window.find();
         });
 
-        debug.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.getDebugMenu().debug();
-            }
+        debug.addActionListener((ActionEvent e) -> {
+            window.getDebugMenu().debug();
         });
 
-        debugAgain.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                window.getDebugMenu().debugAgain();
-            }
+        debugAgain.addActionListener((ActionEvent e) -> {
+            window.getDebugMenu().debugAgain();
         });
 
     }

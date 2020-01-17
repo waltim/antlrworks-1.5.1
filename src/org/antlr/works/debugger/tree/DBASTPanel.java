@@ -128,11 +128,9 @@ public class DBASTPanel extends DetachablePanel implements DBASTModelListener, X
     public void updateOnBreakEvent() {
         model.fireDataChanged();
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                selectLastRule();
-                selectLastRootNode();
-            }
+        SwingUtilities.invokeLater(() -> {
+            selectLastRule();
+            selectLastRootNode();
         });
     }
 

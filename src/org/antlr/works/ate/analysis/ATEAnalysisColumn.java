@@ -108,10 +108,12 @@ public class ATEAnalysisColumn extends JPanel {
     }
 
     protected void paintStrips(Graphics2D g, List<ATEAnalysisItem> items) {
-        for (ATEAnalysisItem item : items) {
+        items.stream().map((item) -> {
             g.setColor(item.color);
+            return item;
+        }).forEachOrdered((item) -> {
             g.fill(composeIndicatorRectangle(item.line, 0));
-        }
+        });
     }
 
     /** This class is used to draw the little analysis colored box at the top
@@ -200,12 +202,12 @@ public class ATEAnalysisColumn extends JPanel {
                 int[] types = manager.getAvailableTypes();
                 for(int type=0; type<types.length; type++) {
                     List<ATEAnalysisItem> items = manager.getItemsForType(type);
-                    for (ATEAnalysisItem ai : items) {
-                        if (composeIndicatorRectangle(ai.line, 2).contains(point)) {
-                            sb.append(ai.description);
-                            sb.append("\n");
-                        }
-                    }
+                    items.stream().filter((ai) -> (composeIndicatorRectangle(ai.line, 2).contains(point))).map((ai) -> {
+                        sb.append(ai.description);
+                        return ai;
+                    }).forEachOrdered((_item) -> {
+                        sb.append("\n");
+                    });
                 }
             }
             return sb.toString();

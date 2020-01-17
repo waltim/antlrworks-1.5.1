@@ -59,16 +59,16 @@ public class XJUndoEngine {
     }
 
     public void unregisterUndo(XJUndoDelegate delegate) {
-        for(JTextPane tp : new HashSet<JTextPane>(undos.keySet())) {
+        new HashSet<JTextPane>(undos.keySet()).forEach((tp) -> {
             XJUndo undo = undos.get(tp);
-            if(undo.delegate == delegate) {
+            if (undo.delegate == delegate) {
                 undo.close();
                 undos.remove(tp);
                 for(FocusListener fl : tp.getFocusListeners()) {
                     tp.removeFocusListener(fl);
                 }
             }
-        }
+        });
     }
 
     public XJUndo getCurrentUndo() {

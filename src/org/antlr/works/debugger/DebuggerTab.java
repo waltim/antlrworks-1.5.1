@@ -186,9 +186,9 @@ public class DebuggerTab extends GrammarWindowTab implements DetachablePanelDele
         parseTreeModel.close();
         astModel.close();
 
-        for(XJRotableToggleButton b : components2toggle.values()) {
+        components2toggle.values().forEach((b) -> {
             b.removeAllActionListeners();
-        }
+        });
 
         delegate = null;
     }
@@ -221,11 +221,8 @@ public class DebuggerTab extends GrammarWindowTab implements DetachablePanelDele
     public XJRotableToggleButton createToggleButton(String title, final int tag, Component c) {
         XJRotableToggleButton b = new XJRotableToggleButton(title);
         b.setFocusable(false);
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                performToggleButtonAction(tag);
-            }
-
+        b.addActionListener((ActionEvent e) -> {
+            performToggleButtonAction(tag);
         });
         components2toggle.put(c, b);
         return b;

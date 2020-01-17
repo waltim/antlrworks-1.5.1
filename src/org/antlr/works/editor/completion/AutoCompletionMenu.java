@@ -170,13 +170,15 @@ public class AutoCompletionMenu extends OverlayObject {
 
     public void setWordLists(List<String> names, List<String> words) {
         listModel.clear();
-        for (String name : names) listModel.addElement(name);
+        names.forEach((name) -> {
+            listModel.addElement(name);
+        });
 
         this.words = words;
         maxWordLength = 0;
-        for (String word : words) {
+        words.forEach((word) -> {
             maxWordLength = Math.max(maxWordLength, word.length());
-        }
+        });
     }
 
     public void setInsertionStartIndex(int startIndex) {

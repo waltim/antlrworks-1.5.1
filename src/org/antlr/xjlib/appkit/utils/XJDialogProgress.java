@@ -73,12 +73,10 @@ public class XJDialogProgress extends XJDialog {
 
         initComponents();
 
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(delegate != null) {
-                    setInfo("Cancelling...");
-                    delegate.dialogDidCancel();
-                }
+        cancelButton.addActionListener((ActionEvent event) -> {
+            if(delegate != null) {
+                setInfo("Cancelling...");
+                delegate.dialogDidCancel();
             }
         });
     }

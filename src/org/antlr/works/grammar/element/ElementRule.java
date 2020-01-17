@@ -252,13 +252,8 @@ public class ElementRule extends ElementScopable implements Comparable, EditorPe
     }
 
     public boolean detectLeftRecursion() {
-        for (List<ATEToken> alts : getAlternatives()) {
-            if (alts.isEmpty())
-                continue;
-
-            ATEToken firstTokenInAlt = alts.get(0);
-            if (firstTokenInAlt.getAttribute().equals(name))
-                return true;
+        if (getAlternatives().stream().filter((alts) -> !(alts.isEmpty())).map((alts) -> alts.get(0)).anyMatch((firstTokenInAlt) -> (firstTokenInAlt.getAttribute().equals(name)))) {
+            return true;
         }
         return false;
     }
@@ -267,7 +262,7 @@ public class ElementRule extends ElementScopable implements Comparable, EditorPe
         StringBuilder head = new StringBuilder();
         StringBuilder star = new StringBuilder();
 
-        for (List<ATEToken> alts : getAlternatives()) {
+        getAlternatives().forEach((alts) -> {
             ATEToken firstTokenInAlt = alts.get(0);
             if (firstTokenInAlt.getAttribute().equals(name)) {
                 if (alts.size() > 1) {
@@ -284,7 +279,7 @@ public class ElementRule extends ElementScopable implements Comparable, EditorPe
                 int end = (alts.get(alts.size() - 1)).getEndIndex();
                 head.append(firstTokenInAlt.getText().substring(start, end));
             }
-        }
+        });
 
         StringBuilder sb = new StringBuilder();
         sb.append("(");
@@ -440,9 +435,7 @@ public class ElementRule extends ElementScopable implements Comparable, EditorPe
 
     public int getItemWidth() {
         int width = 0;
-        for(int type : getItemTypes()) {
-            width += getItemIcon(type).getIconWidth();
-        }
+        width = getItemTypes().stream().map((type) -> getItemIcon(type).getIconWidth()).reduce(width, Integer::sum);
         return width;
     }
 

@@ -84,9 +84,9 @@ public class DebuggerInputDialog extends XJDialog {
         inputTextArea.setText(AWPrefs.getDebuggerInputText());
 
         rulesCombo.removeAllItems();
-        for (ElementRule rule : debuggerTab.getSortedRules()) {
+        debuggerTab.getSortedRules().forEach((rule) -> {
             rulesCombo.addItem(rule.name);
-        }
+        });
         rulesCombo.setSelectedItem(debuggerTab.getStartRule());
 
         Utils.fillComboWithEOL(eolCombo);
@@ -100,13 +100,11 @@ public class DebuggerInputDialog extends XJDialog {
 
         inputFileField.setText(AWPrefs.getDebuggerInputFile());
 
-        browseInputFileButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent actionEvent) {
-                if(XJFileChooser.shared().displayOpenDialog(getContentPane(), false)) {
-                    inputFileField.setText(XJFileChooser.shared().getSelectedFilePath());
-                    AWPrefs.setDebuggerInputFile(inputFileField.getText());
-                    fileInputRadio.setSelected(true);
-                }
+        browseInputFileButton.addActionListener((ActionEvent actionEvent) -> {
+            if(XJFileChooser.shared().displayOpenDialog(getContentPane(), false)) {
+                inputFileField.setText(XJFileChooser.shared().getSelectedFilePath());
+                AWPrefs.setDebuggerInputFile(inputFileField.getText());
+                fileInputRadio.setSelected(true);
             }
         });
     }

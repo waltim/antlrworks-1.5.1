@@ -85,22 +85,18 @@ public class EditorFoldingManager extends ATEFoldingManager {
     public void provideFoldingEntities() {
         List<ElementRule> rules = window.getGrammarEngine().getRules();
         if(rules != null) {
-            for (ElementRule rule : rules) {
+            rules.forEach((rule) -> {
                 addEntity(rule);
-            }
+            });
         }
 
         // Add only actions that are in expanded rules
         if(AWPrefs.getFoldingEnabled() && AWPrefs.getDisplayActionsAnchorsFolding()) {
             List<ElementAction> actions = window.getGrammarEngine().getActions();
             if(actions != null) {
-                for (ElementAction action : actions) {
-                    if (action.rule.isExpanded()) {
-                        // since 1.2, don't display action folding icon to avoid visual clutter
-                        // maybe re-introduce it if the folding is supported one day in the window
-                        //addEntity(action);
-                    }
-                }
+                actions.stream().filter((action) -> (action.rule.isExpanded())); // since 1.2, don't display action folding icon to avoid visual clutter
+                // maybe re-introduce it if the folding is supported one day in the window
+                //addEntity(action);
             }
         }
     }

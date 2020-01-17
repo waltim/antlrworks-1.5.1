@@ -61,9 +61,9 @@ public class DBASTModel {
     }
 
     public void fireDataChanged() {
-        for (DBASTModelListener listener : listeners) {
+        listeners.forEach((listener) -> {
             listener.modelChanged(this);
-        }
+        });
     }
 
     public void clear() {

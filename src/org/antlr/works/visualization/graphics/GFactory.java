@@ -102,24 +102,24 @@ public class GFactory {
         // Create one GGraph for each error rules
         List<GGraph> graphs = new ArrayList<GGraph>();
         FAFactory factory = new FAFactory(grammar);
-        for (String rule : error.rules) {
+        error.rules.stream().map((rule) -> {
             NFAState startState = grammar.getRuleStartState(rule);
             FAState state = factory.buildNFA(startState, optimize);
-
             GGraph graph = renderer.render(state);
             graph.setName(rule);
+            return graph;
+        }).forEachOrdered((graph) -> {
             graphs.add(graph);
-        }
+        });
 
         // Add only graphs that are referenced by at least one error path.
         // For example, the statement rule of the java.g grammar produces
         // states that do not exist in the graph (they are after the accepted state
         // and are ignored by the FAFactory)
         GGraphGroup gg = new GGraphGroup();
-        for (GGraph graph : graphs) {
-            if (graph.containsAtLeastOneState(error.states))
-                gg.add(graph);
-        }
+        graphs.stream().filter((graph) -> (graph.containsAtLeastOneState(error.states))).forEachOrdered((graph) -> {
+            gg.add(graph);
+        });
 
         // Attach all error paths to the GGraphGroup
         for(int i=0; i<error.paths.size(); i++) {
@@ -136,9 +136,9 @@ public class GFactory {
         }
 
         // Attach all unreacheable alts to the GGraphGroup
-        for (Object[] unreachableAlt : error.unreachableAlts) {
+        error.unreachableAlts.forEach((unreachableAlt) -> {
             gg.addUnreachableAlt((NFAState) unreachableAlt[0], (Integer) unreachableAlt[1]);
-        }
+        });
 
         if(error.paths.size() > 0)
             gg.getPathGroup().setPathVisible(0, true);

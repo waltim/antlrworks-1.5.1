@@ -112,27 +112,27 @@ public class EditorAnalysisManager extends ATEAnalysisManager {
 
     public List<ATEAnalysisItem> getErrors() {
         List<ATEAnalysisItem> errors = new ArrayList<ATEAnalysisItem>();
-        for (EditorInspectorItem item : window.editorInspector.getErrors()) {
+        window.editorInspector.getErrors().forEach((item) -> {
             errors.add(new ATEAnalysisItem(ANALYSIS_ITEM_ERROR, item.color, item.startLineNumber, item.startIndex, item.description));
-        }
+        });
         numberOfErrors = errors.size();
         return errors;
     }
 
     public List<ATEAnalysisItem> getWarnings() {
         List<ATEAnalysisItem> warnings = new ArrayList<ATEAnalysisItem>();
-        for (EditorInspectorItem item : window.editorInspector.getWarnings()) {
+        window.editorInspector.getWarnings().forEach((item) -> {
             warnings.add(new ATEAnalysisItem(ANALYSIS_ITEM_WARNING, item.color, item.startLineNumber, item.startIndex, item.description));
-        }
+        });
         numberOfWarnings = warnings.size();
         return warnings;
     }
 
     public List<ATEAnalysisItem> getOthers() {
         List<ATEAnalysisItem> others = new ArrayList<ATEAnalysisItem>();
-        for (EditorInspectorItem item : window.editorInspector.getDecisionDFAs()) {
+        window.editorInspector.getDecisionDFAs().forEach((item) -> {
             others.add(new ATEAnalysisItem(ANALYSIS_ITEM_OTHER, item.color, item.startLineNumber, item.startIndex, item.description));
-        }
+        });
         return others;
     }
 

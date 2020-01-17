@@ -94,10 +94,8 @@ public class IDE extends XJApplicationDelegate implements XJMenuItemDelegate {
             sc = new SplashScreen();
 
             try {
-                SwingUtilities.invokeAndWait(new Runnable() {
-                    public void run() {
-                        sc.setVisible(true);
-                    }
+                SwingUtilities.invokeAndWait(() -> {
+                    sc.setVisible(true);
                 });
             } catch (Exception e) {
                 e.printStackTrace();
@@ -456,12 +454,9 @@ public class IDE extends XJApplicationDelegate implements XJMenuItemDelegate {
 
     private void rememberAllOpenedDocuments() {
         final List<String> docPath = new ArrayList<String>();
-        for (XJWindow window : XJApplication.shared().getWindows()) {
-            final XJDocument document = window.getDocument();
-            if(XJApplication.handlesDocument(document)) {
-                docPath.add(document.getDocumentPath());
-            }
-        }
+        XJApplication.shared().getWindows().stream().map((window) -> window.getDocument()).filter((document) -> (XJApplication.handlesDocument(document))).forEachOrdered((document) -> {
+            docPath.add(document.getDocumentPath());
+        });
         AWPrefs.setAllOpenedDocuments(docPath);
     }
 

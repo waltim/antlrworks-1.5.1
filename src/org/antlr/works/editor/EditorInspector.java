@@ -95,10 +95,9 @@ public class EditorInspector {
 
     protected List<EditorInspectorItem> getItemsAtIndex(List<EditorInspectorItem> items, int index) {
         List<EditorInspectorItem> filteredItems = new ArrayList<EditorInspectorItem>();
-        for (EditorInspectorItem item : items) {
-            if (index >= item.startIndex && index <= item.endIndex)
-                filteredItems.add(item);
-        }
+        items.stream().filter((item) -> (index >= item.startIndex && index <= item.endIndex)).forEachOrdered((item) -> {
+            filteredItems.add(item);
+        });
         return filteredItems;
     }
 
@@ -132,17 +131,15 @@ public class EditorInspector {
         if(tokens == null)
             return;
 
-        for (ATEToken t : tokens) {
-            if (t.type == ATESyntaxLexer.TOKEN_DOUBLE_QUOTE_STRING) {
-                if (RefactorEngine.ignoreScopeForDoubleQuoteLiteral(t.scope)) continue;
-
-                EditorInspectorItem item = new ItemInvalidCharLiteral();
-                item.setAttributes(t, t.getStartIndex(), t.getEndIndex(),
-                        t.startLineNumber, Color.red,
-                        "Invalid character literal '" + t.getAttribute() + "' - must use single quote");
-                items.add(item);
-            }
-        }
+        tokens.stream().filter((t) -> (t.type == ATESyntaxLexer.TOKEN_DOUBLE_QUOTE_STRING)).filter((t) -> !(RefactorEngine.ignoreScopeForDoubleQuoteLiteral(t.scope))).map((t) -> {
+            EditorInspectorItem item = new ItemInvalidCharLiteral();
+            item.setAttributes(t, t.getStartIndex(), t.getEndIndex(),
+                    t.startLineNumber, Color.red,
+                    "Invalid character literal '" + t.getAttribute() + "' - must use single quote");
+            return item;
+        }).forEachOrdered((item) -> {
+            items.add(item);
+        });
     }
 
     protected void discoverUndefinedReferences(List<EditorInspectorItem> items) {
@@ -150,13 +147,15 @@ public class EditorInspector {
         if(undefinedRefs == null)
             return;
 
-        for (ElementReference ref : undefinedRefs) {
+        undefinedRefs.stream().map((ref) -> {
             EditorInspectorItem item = new ItemUndefinedReference();
             item.setAttributes(ref.token, ref.token.getStartIndex(), ref.token.getEndIndex(),
                     ref.token.startLineNumber, Color.red,
                     "Undefined reference \"" + ref.token.getAttribute() + "\"");
+            return item;
+        }).forEachOrdered((item) -> {
             items.add(item);
-        }
+        });
     }
 
     protected void discoverUndefinedImports(List<EditorInspectorItem> items) {
@@ -164,13 +163,15 @@ public class EditorInspector {
         if(imports == null)
             return;
 
-        for (ElementImport ref : imports) {
+        imports.stream().map((ref) -> {
             EditorInspectorItem item = new ItemUndefinedImport();
             item.setAttributes(ref.token, ref.token.getStartIndex(), ref.token.getEndIndex(),
                     ref.token.startLineNumber, Color.red,
                     "Undefined import \"" + ref.token.getAttribute() + "\"");
+            return item;
+        }).forEachOrdered((item) -> {
             items.add(item);
-        }
+        });
     }
 
     protected void discoverDuplicateRules(List<EditorInspectorItem> items) {
@@ -178,13 +179,15 @@ public class EditorInspector {
         if(rules == null)
             return;
 
-        for (ElementRule rule : rules) {
+        rules.stream().map((rule) -> {
             EditorInspectorItem item = new ItemDuplicateRule();
             item.setAttributes(rule.start, rule.start.getStartIndex(), rule.start.getEndIndex(),
                     rule.start.startLineNumber, Color.red,
                     "Duplicate rule \"" + rule.name + "\"");
+            return item;
+        }).forEachOrdered((item) -> {
             items.add(item);
-        }
+        });
     }
 
     protected void discoverLeftRecursionRules(List<EditorInspectorItem> items) {
@@ -192,16 +195,15 @@ public class EditorInspector {
         if(rules == null)
             return;
 
-        for (ElementRule rule : rules) {
-            if (!rule.hasLeftRecursion())
-                continue;
-
+        rules.stream().filter((rule) -> !(!rule.hasLeftRecursion())).map((rule) -> {
             EditorInspectorItem item = new ItemLeftRecursion();
             item.setAttributes(rule.start, rule.start.getStartIndex(), rule.start.getEndIndex(),
                     rule.start.startLineNumber, Color.blue,
                     "Rule \"" + rule.name + "\" is left-recursive");
+            return item;
+        }).forEachOrdered((item) -> {
             items.add(item);
-        }
+        });
     }
 
     protected void discoverLeftRecursiveRulesSet(List<EditorInspectorItem> items) {
@@ -209,17 +211,16 @@ public class EditorInspector {
         if(rules == null)
             return;
 
-        for (ElementRule rule : rules) {
+        rules.forEach((rule) -> {
             Set rulesSet = rule.getLeftRecursiveRulesSet();
-            if (rulesSet == null || rulesSet.size() < 2)
-                continue;
-
-            EditorInspectorItem item = new EditorInspectorItem();
-            item.setAttributes(rule.start, rule.start.getStartIndex(), rule.start.getEndIndex(),
-                    rule.start.startLineNumber, Color.blue,
-                    "Rule \"" + rule.name + "\" is mutually left-recursive with other rules (see Console)");
-            items.add(item);
-        }
+            if (!(rulesSet == null || rulesSet.size() < 2)) {
+                EditorInspectorItem item = new EditorInspectorItem();
+                item.setAttributes(rule.start, rule.start.getStartIndex(), rule.start.getEndIndex(),
+                        rule.start.startLineNumber, Color.blue,
+                        "Rule \"" + rule.name + "\" is mutually left-recursive with other rules (see Console)");
+                items.add(item);
+            }
+        });
     }
 
     protected void discoverDecisionDFAs(List<EditorInspectorItem> items) {

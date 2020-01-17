@@ -150,11 +150,9 @@ public class ATEGutter extends JComponent {
         if(textEditor.gutterColumnsManager != null) {
             ATEGutterColumnManager manager = textEditor.gutterColumnsManager;
             for(String column : manager.getColumns()) {
-                for(ATEGutterItem item : manager.getGutterItems(column)) {
-                    if(item.getItemIndex() > offset) {
-                        item.setItemIndex(item.getItemIndex()+length);
-                    }
-                }
+                manager.getGutterItems(column).stream().filter((item) -> (item.getItemIndex() > offset)).forEachOrdered((item) -> {
+                    item.setItemIndex(item.getItemIndex()+length);
+                });
             }
         }
     }
@@ -190,7 +188,7 @@ public class ATEGutter extends JComponent {
         foldingInfos.clear();
         if(textEditor.foldingManager != null) {
             List<ATEFoldingEntity> entities = textEditor.foldingManager.getFoldingEntities();
-            for (ATEFoldingEntity entity : entities) {
+            entities.forEach((entity) -> {
                 int entityStartIndex = entity.foldingEntityGetStartIndex();
                 int entityEndIndex = entity.foldingEntityGetEndIndex();
                 if (!(entityStartIndex > endIndex || entityEndIndex < startIndex)) {
@@ -201,7 +199,7 @@ public class ATEGutter extends JComponent {
                     Point bottom = new Point(getWidth() - getOffsetFromText(), bottom_y);
                     foldingInfos.add(new FoldingInfo(entity, top, bottom));
                 }
-            }
+            });
         }
 
     }
@@ -291,7 +289,7 @@ public class ATEGutter extends JComponent {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
         g.setColor(Color.red);
-        for (ItemInfo info : items) {
+        items.forEach((info) -> {
             Rectangle r = info.r;
             if (clip.intersects(r)) {
                 ATEGutterItem item = info.item;
@@ -302,7 +300,7 @@ public class ATEGutter extends JComponent {
                     x += i.getIconWidth();
                 }
             }
-        }
+        });
     }
 
     private void paintLineNumbers(Graphics2D g, Rectangle clip) {
@@ -325,9 +323,7 @@ public class ATEGutter extends JComponent {
         // Do not alias otherwise the dotted line between collapsed icon doesn't show up really well
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_OFF);
 
-        for (FoldingInfo info : foldingInfos) {
-            if (!clip.intersects(info.top_r) && !clip.intersects(info.bottom_r)) continue;
-
+        foldingInfos.stream().filter((info) -> !(!clip.intersects(info.top_r) && !clip.intersects(info.bottom_r))).forEachOrdered((info) -> {
             Point top = info.top;
             Point bottom = info.bottom;
             if (foldingEnabled && info.entity.foldingEntityCanBeCollapsed()) {
@@ -353,7 +349,7 @@ public class ATEGutter extends JComponent {
                     drawCenteredImageAtPoint(g, delimiterDown, bottom);
                 }
             }
-        }
+        });
     }
 
     private void drawFoldingLine(Graphics2D g, Point top, Point bottom) {

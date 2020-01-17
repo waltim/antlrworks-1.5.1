@@ -95,12 +95,9 @@ public class TipsManager {
 
     public List<String> generateTips(int position) {
         List<String> tips = new ArrayList<String>();
-        for (TipsProvider provider : providers) {
-            List<String> ptips = provider.tipsProviderGetTips(position);
-            if (ptips != null && !ptips.isEmpty()) {
-                tips.addAll(ptips);
-            }
-        }
+        providers.stream().map((provider) -> provider.tipsProviderGetTips(position)).filter((ptips) -> (ptips != null && !ptips.isEmpty())).forEachOrdered((ptips) -> {
+            tips.addAll(ptips);
+        });
         return tips;
     }
 

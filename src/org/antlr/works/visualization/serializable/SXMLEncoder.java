@@ -115,7 +115,7 @@ public class SXMLEncoder implements SEncoder {
 
         public void toXML(XMLWriter writer) {
             writer.open(object.getClass().getSimpleName());
-            for(Object e : stream) {
+            stream.forEach((e) -> {
                 if(e instanceof Entry) {
                     ((Entry)e).toXML(writer);
                 } else if(e != null) {
@@ -137,7 +137,7 @@ public class SXMLEncoder implements SEncoder {
                     writer.write(e.toString());
                     writer.close();
                 }
-            }
+            });
             writer.close();
         }
 

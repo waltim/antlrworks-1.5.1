@@ -108,26 +108,26 @@ public class XJWindow extends XJFrame {
     }
 
     public boolean hasDirtyDocument() {
-        for(XJDocument doc : documents) {
-            if(doc.isDirty()) return true;
+        if (documents.stream().anyMatch((doc) -> (doc.isDirty()))) {
+            return true;
         }
         return false;
     }
 
     public boolean hasDocumentsWithFileAssociated() {
-        for(XJDocument doc : documents) {
-            if(doc.getDocumentPath() != null) return true;
+        if (documents.stream().anyMatch((doc) -> (doc.getDocumentPath() != null))) {
+            return true;
         }
         return false;
     }
 
     public void reloadDocuments() {
-        for(XJDocument doc : documents) {
-            if(doc.isModifiedOnDisk()) {
-                windowDocumentPathDidChange(doc);
-                doc.synchronizeLastModifiedDate();
-            }
-        }
+        documents.stream().filter((doc) -> (doc.isModifiedOnDisk())).map((doc) -> {
+            windowDocumentPathDidChange(doc);
+            return doc;
+        }).forEachOrdered((doc) -> {
+            doc.synchronizeLastModifiedDate();
+        });
     }
 
     public void clearDocuments() {
@@ -135,18 +135,14 @@ public class XJWindow extends XJFrame {
     }
 
     public void saveAll() {
-        for (XJDocument document : documents) {
-            if (document.isDirty() && document.getDocumentPath() != null) {
-                document.save(false);
-            }
-        }
+        documents.stream().filter((document) -> (document.isDirty() && document.getDocumentPath() != null)).forEachOrdered((document) -> {
+            document.save(false);
+        });
     }
 
     public boolean closeDocuments(boolean force) {
-        for(XJDocument doc : new ArrayList<XJDocument>(documents)) {
-            if(!doc.close(force)) {
-                return false;
-            }
+        if (!new ArrayList<XJDocument>(documents).stream().noneMatch((doc) -> (!doc.close(force)))) {
+            return false;
         }
         return true;
     }

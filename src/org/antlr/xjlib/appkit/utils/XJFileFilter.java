@@ -57,11 +57,8 @@ public class XJFileFilter extends FileFilter {
     }
 
     public boolean accept(String path) {
-        for (Object ext : exts) {
-            String e = (String) ext;
-            if (path.endsWith("."+e)) {
-                return true;
-            }
+        if (exts.stream().map((ext) -> (String) ext).anyMatch((e) -> (path.endsWith("."+e)))) {
+            return true;
         }
         return false;
     }

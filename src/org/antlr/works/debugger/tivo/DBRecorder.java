@@ -517,11 +517,9 @@ public class DBRecorder implements Runnable, XJDialogProgressDelegate {
         if(listener.tokenIndexesAreInvalid()) {
             remoteParserStateWarned = true;
 
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    String message = "Invalid token indexes (current index is "+currentTokenIndex+" at event "+currentTokenIndexEventNumber+" while the same index was used at event "+lastTokenIndexEventNumber+"). Make sure that the remote parser implements the getTokenIndex() method of Token. The indexes must be unique for each consumed token.";
-                    XJAlert.display(debuggerTab.getContainer(), "Invalid Token Indexes", message);
-                }
+            SwingUtilities.invokeLater(() -> {
+                String message = "Invalid token indexes (current index is "+currentTokenIndex+" at event "+currentTokenIndexEventNumber+" while the same index was used at event "+lastTokenIndexEventNumber+"). Make sure that the remote parser implements the getTokenIndex() method of Token. The indexes must be unique for each consumed token.";
+                XJAlert.display(debuggerTab.getContainer(), "Invalid Token Indexes", message);
             });
 
             return true;

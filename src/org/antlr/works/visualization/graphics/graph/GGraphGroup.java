@@ -63,9 +63,9 @@ public class GGraphGroup extends GGraphAbstract {
     @Override
     public void setContext(GContext context) {
         super.setContext(context);
-        for (GGraph graph : getGraphs()) {
+        getGraphs().forEach((graph) -> {
             graph.setContext(context);
-        }
+        });
         getPathGroup().setContext(context);
     }
 
@@ -107,17 +107,15 @@ public class GGraphGroup extends GGraphAbstract {
          * the state number
          */
         List<Integer> statesNumbers = new ArrayList<Integer>();
-        for (Object state : states) {
+        states.forEach((state) -> {
             statesNumbers.add((((NFAState) state).stateNumber));
-        }
+        });
 
         /** Select only the transitions that containing all the state numbers */
         List<FATransition> newCandidates = new ArrayList<FATransition>();
-        for (FATransition t : candidates) {
-            if (t.skippedStates != null && t.skippedStates.containsAll(statesNumbers)) {
-                newCandidates.add(t);
-            }
-        }
+        candidates.stream().filter((t) -> (t.skippedStates != null && t.skippedStates.containsAll(statesNumbers))).forEachOrdered((t) -> {
+            newCandidates.add(t);
+        });
 
         return newCandidates;
     }
@@ -383,9 +381,9 @@ public class GGraphGroup extends GGraphAbstract {
         context.linkColor = Color.black;
         context.setLineWidth(1);
 
-        for (GGraph graph : getGraphs()) {
+        getGraphs().forEach((graph) -> {
             graph.draw();
-        }
+        });
 
         getPathGroup().draw();
 

@@ -76,9 +76,9 @@ public class STRulePanel extends JPanel {
     public void refreshRules() {
         model.clear();
         List<ElementTemplateRule> rules = ((ATEStringTemplateSyntaxParser) window.getTextEditor().getParserEngine().getParser()).templateRules;
-        for (ElementTemplateRule rule : rules) {
+        rules.forEach((rule) -> {
             model.addRule(rule);
-        }
+        });
         model.fireSort();
         tableView.getTable().setModel(model);
         tableView.autoresizeColumns();

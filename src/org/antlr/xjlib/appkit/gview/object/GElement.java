@@ -83,9 +83,9 @@ public abstract class GElement implements XJXMLSerializable {
     public void setPanel(GView view) {
         this.view = view;
         synchronized(lock) {
-            for (GElement element : elements) {
+            elements.forEach((element) -> {
                 element.setPanel(view);
-            }
+            });
         }
     }
 
@@ -316,9 +316,9 @@ public abstract class GElement implements XJXMLSerializable {
 
         // Recursively move every other children objects
         synchronized(lock) {
-            for (GElement element : elements) {
+            elements.forEach((element) -> {
                 element.move(dx, dy);
-            }
+            });
         }
 
         elementPositionDidChange();
@@ -377,9 +377,9 @@ public abstract class GElement implements XJXMLSerializable {
 
     public void drawRecursive(Graphics2D g) {
         synchronized(lock) {
-            for (GElement element : elements) {
+            elements.forEach((element) -> {
                 element.drawRecursive(g);
-            }
+            });
         }
 
         draw(g);
@@ -446,9 +446,9 @@ public abstract class GElement implements XJXMLSerializable {
      */
     public void elementDidLoad() {
         synchronized(lock) {
-            for (GElement element : elements) {
+            elements.forEach((element) -> {
                 element.elementDidLoad();
-            }
+            });
         }
 
         // Update the anchors

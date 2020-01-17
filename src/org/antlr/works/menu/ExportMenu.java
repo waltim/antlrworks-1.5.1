@@ -115,7 +115,7 @@ public class ExportMenu {
         String extension = XJFileChooser.shared().getSelectedFileExtension();
 
         SDGenerator sd = new SDGenerator(window.getGrammarEngine());
-        for(ElementRule rule : window.getRules()) {
+        window.getRules().forEach((rule) -> {
             try {
                 if(asImage) {
                     sd.renderRuleToBitmapFile(rule.name, extension, XJUtils.concatPath(directory, rule.name+"."+extension));
@@ -125,7 +125,7 @@ public class ExportMenu {
             } catch (Exception e) {
                 XJAlert.display(window.getJavaContainer(), "Error", "Images cannot be saved because:\n"+e);
             }
-        }
+        });
     }
 
     public void exportRuleAsImage() {

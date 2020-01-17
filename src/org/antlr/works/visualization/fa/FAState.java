@@ -187,9 +187,9 @@ public class FAState implements SSerializable {
         encoder.write(stateNumber);
         encoder.write(acceptedState);
         encoder.write(enclosingRuleName);
-        for(FATransition t : transitions) {
+        transitions.forEach((t) -> {
             encoder.write(t);
-        }
+        });
         encoder.write(externalRuleRefName);
         encoder.write(loop);
     }
