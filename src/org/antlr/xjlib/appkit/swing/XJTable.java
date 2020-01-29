@@ -62,16 +62,14 @@ public class XJTable extends JTable implements Autoscroll {
     }
 
     public void init() {
-        getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                if(e.getValueIsAdjusting())
-                    return;
+        getSelectionModel().addListSelectionListener(e -> {
+            if(e.getValueIsAdjusting())
+                return;
 
-                if(!ignoreSelectionEvent) {
-                    setSelectedRow(getSelectedRow());
-                    if(delegate != null)
-                        delegate.tableSelectionChanged(XJTable.this, selectionRow);
-                }
+            if(!ignoreSelectionEvent) {
+                setSelectedRow(getSelectedRow());
+                if(delegate != null)
+                    delegate.tableSelectionChanged(XJTable.this, selectionRow);
             }
         });
     }

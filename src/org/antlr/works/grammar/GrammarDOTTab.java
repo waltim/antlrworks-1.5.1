@@ -131,13 +131,11 @@ public abstract class GrammarDOTTab extends GrammarWindowTab implements Runnable
         slider.setMaximum(800);
         slider.setValue(100);
 
-        slider.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent event) {
-                JSlider slider = (JSlider)event.getSource();
+        slider.addChangeListener(event -> {
+            JSlider slider1 = (JSlider)event.getSource();
 
-                view.setZoom((float)slider.getValue()/100);
-                view.repaint();
-            }
+            view.setZoom((float) slider1.getValue()/100);
+            view.repaint();
         });
         return slider;
     }
@@ -190,19 +188,17 @@ public abstract class GrammarDOTTab extends GrammarWindowTab implements Runnable
             error = e.toString();
         }
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                window.hideProgress();
-                if(error == null) {
-                    window.addTab(GrammarDOTTab.this);
-                } else {
-                    if(GrammarDOTTab.this instanceof TokensDFA)
-                        XJAlert.display(window.getJavaContainer(), "Error", "Cannot generate the tokens DFA:\n"+error);
-                    if(GrammarDOTTab.this instanceof DecisionDFA)
-                        XJAlert.display(window.getJavaContainer(), "Error", "Cannot generate the DFA:\n"+error);
-                    if(GrammarDOTTab.this instanceof RulesDependency)
-                        XJAlert.display(window.getJavaContainer(), "Error", "Cannot generate the rule dependency graph:\n"+error);
-                }
+        SwingUtilities.invokeLater(() -> {
+            window.hideProgress();
+            if(error == null) {
+                window.addTab(GrammarDOTTab.this);
+            } else {
+                if(GrammarDOTTab.this instanceof TokensDFA)
+                    XJAlert.display(window.getJavaContainer(), "Error", "Cannot generate the tokens DFA:\n"+error);
+                if(GrammarDOTTab.this instanceof DecisionDFA)
+                    XJAlert.display(window.getJavaContainer(), "Error", "Cannot generate the DFA:\n"+error);
+                if(GrammarDOTTab.this instanceof RulesDependency)
+                    XJAlert.display(window.getJavaContainer(), "Error", "Cannot generate the rule dependency graph:\n"+error);
             }
         });
 

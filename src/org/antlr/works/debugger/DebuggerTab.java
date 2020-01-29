@@ -221,12 +221,7 @@ public class DebuggerTab extends GrammarWindowTab implements DetachablePanelDele
     public XJRotableToggleButton createToggleButton(String title, final int tag, Component c) {
         XJRotableToggleButton b = new XJRotableToggleButton(title);
         b.setFocusable(false);
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                performToggleButtonAction(tag);
-            }
-
-        });
+        b.addActionListener(e -> performToggleButtonAction(tag));
         components2toggle.put(c, b);
         return b;
     }
@@ -631,11 +626,7 @@ public class DebuggerTab extends GrammarWindowTab implements DetachablePanelDele
     public void recorderStatusDidChange() {
         if(closing) return;
 
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                updateStatusInfo();
-            }
-        });
+        SwingUtilities.invokeLater(() -> updateStatusInfo());
     }
 
     public void recorderDidStop() {

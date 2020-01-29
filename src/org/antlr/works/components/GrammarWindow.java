@@ -1097,13 +1097,11 @@ public class GrammarWindow
                     //getContainer().selectEditor(grammars.get(0));
 
                     // set the caret position
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            GrammarEngine engine = getGrammarEngine();
-                            int index = engine.getFirstDeclarationPosition(ref.getName());
-                            if(index != -1) {
-                                setCaretPosition(index);
-                            }
+                    SwingUtilities.invokeLater(() -> {
+                        GrammarEngine engine1 = getGrammarEngine();
+                        int index1 = engine1.getFirstDeclarationPosition(ref.getName());
+                        if(index1 != -1) {
+                            setCaretPosition(index1);
                         }
                     });
                 }
@@ -1156,11 +1154,9 @@ public class GrammarWindow
         if(windowFirstDisplay) {
             windowFirstDisplay = false;
             afterParseOperations();
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    updateVisualization(true);
-                    findTokensToIgnore(true);
-                }
+            SwingUtilities.invokeLater(() -> {
+                updateVisualization(true);
+                findTokensToIgnore(true);
             });
         } else {
             afterParserOp.awakeThread();
@@ -1253,11 +1249,7 @@ public class GrammarWindow
 
             // Tells the caret to be visible a little bit later
             // to let Swing focus the component
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
-                    getTextPane().getCaret().setVisible(true);
-                }
-            });
+            SwingUtilities.invokeLater(() -> getTextPane().getCaret().setVisible(true));
         } else {
             getTextPane().getCaret().setVisible(flag);
         }
@@ -1270,11 +1262,7 @@ public class GrammarWindow
         // Request focus in the text pane. A little bit later because
         // in desktop mode, the focus is not taken into account if
         // requested immediately.
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                getTextPane().requestFocusInWindow();
-            }
-        });
+        SwingUtilities.invokeLater(() -> getTextPane().requestFocusInWindow());
     }
 
     public void componentActivated() {
@@ -1339,11 +1327,7 @@ public class GrammarWindow
             // Inside a rule - show all rules in alphabetical order
 
             List<ElementRule> sortedRules = Collections.list(Collections.enumeration(grammarEngine.getRules()));
-            Collections.sort(sortedRules,new Comparator<ElementRule>() {
-                public int compare(ElementRule o1, ElementRule o2) {
-                    return o1.name.compareToIgnoreCase(o2.name);
-                }
-            });
+            Collections.sort(sortedRules, (o1, o2) -> o1.name.compareToIgnoreCase(o2.name));
 
             for (ElementRule rule : sortedRules) {
                 if (rule.name.toLowerCase().startsWith(partialWord) && !matchingRules.contains(rule.name))
@@ -1353,11 +1337,7 @@ public class GrammarWindow
             // Not inside rule - show only undefined rules
 
             List<ElementReference> sortedUndefinedReferences = Collections.list(Collections.enumeration(grammarEngine.getUndefinedReferences()));
-            Collections.sort(sortedUndefinedReferences,new Comparator<ElementReference>() {
-                public int compare(ElementReference o1, ElementReference o2) {
-                    return o1.rule.name.compareToIgnoreCase(o2.rule.name);
-                }
-            });
+            Collections.sort(sortedUndefinedReferences, (o1, o2) -> o1.rule.name.compareToIgnoreCase(o2.rule.name));
 
             for (ElementReference ref : sortedUndefinedReferences) {
                 String attr = ref.token.getAttribute();
@@ -1564,11 +1544,9 @@ public class GrammarWindow
         public ConsoleStatus() {
             box = Box.createHorizontalBox();
 
-            label = new XJURLLabel(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    selectTab(consoleTab.getTabComponent());
-                    clearMessage();
-                }
+            label = new XJURLLabel(e -> {
+                selectTab(consoleTab.getTabComponent());
+                clearMessage();
             });
 
             clearMessage();
@@ -1625,11 +1603,7 @@ public class GrammarWindow
 
             JPopupMenu popup = new JPopupMenu();
             JMenuItem item = new JMenuItem("Close");
-            item.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    closeTab(bottomTab.getSelectedIndex());
-                }
-            });
+            item.addActionListener(event1 -> closeTab(bottomTab.getSelectedIndex()));
             popup.add(item);
             popup.show(event.getComponent(), event.getX(), event.getY());
         }

@@ -94,11 +94,7 @@ public class IDE extends XJApplicationDelegate implements XJMenuItemDelegate {
             sc = new SplashScreen();
 
             try {
-                SwingUtilities.invokeAndWait(new Runnable() {
-                    public void run() {
-                        sc.setVisible(true);
-                    }
-                });
+                SwingUtilities.invokeAndWait(() -> sc.setVisible(true));
             } catch (Exception e) {
                 e.printStackTrace();
             }

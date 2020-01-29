@@ -134,8 +134,8 @@
                             <execution>
                                 <id>default-compile</id>
                                 <configuration>
-                                    <source>1.5</source>
-                                    <target>1.5</target>
+                                    <source>1.8</source>
+                                    <target>1.8</target>
                                     <compilerArgs>
                                         <arg>-Xlint</arg>
                                         <arg>-Xlint:-serial</arg>
@@ -207,7 +207,7 @@
                             <javaApplicationStub>${basedir}/osx/ANTLRWorks.app/Contents/MacOS/JavaApplicationStub</javaApplicationStub>
                             <dictionaryFile>osx/Info.plist</dictionaryFile>
                             <iconFile>${basedir}/osx/ANTLRWorks.app/Contents/Resources/app.icns</iconFile>
-                            <jvmVersion>1.5+</jvmVersion>
+                            <jvmVersion>1.8+</jvmVersion>
                             <additionalResources>
                                 <fileSet>
                                     <directory>${basedir}/osx</directory>
@@ -311,8 +311,8 @@
                     <execution>
                         <id>default-compile</id>
                         <configuration>
-                            <source>1.5</source>
-                            <target>1.5</target>
+                            <source>1.8</source>
+                            <target>1.8</target>
                         </configuration>
                     </execution>
                     <execution>

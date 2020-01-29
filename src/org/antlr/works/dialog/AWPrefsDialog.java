@@ -78,29 +78,21 @@ public class AWPrefsDialog extends XJPanel {
         prepareUpdateTab();
         prepareTestRigTab();
 
-        applyButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                apply();
-            }
-        });
+        applyButton.addActionListener(event -> apply());
     }
 
     public void prepareGeneralTab() {
-        browseOutputPathButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(XJFileChooser.shared().displayChooseDirectory(getJavaContainer())) {
-                    outputPathField.setText(XJFileChooser.shared().getSelectedFilePath());
-                    AWPrefs.setOutputPath(outputPathField.getText());
-                }
+        browseOutputPathButton.addActionListener(event -> {
+            if(XJFileChooser.shared().displayChooseDirectory(getJavaContainer())) {
+                outputPathField.setText(XJFileChooser.shared().getSelectedFilePath());
+                AWPrefs.setOutputPath(outputPathField.getText());
             }
         });
 
-        browseDotToolPathButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(XJFileChooser.shared().displayOpenDialog(getJavaContainer(), false)) {
-                    dotToolPathField.setText(XJFileChooser.shared().getSelectedFilePath());
-                    AWPrefs.setDOTToolPath(dotToolPathField.getText());
-                }
+        browseDotToolPathButton.addActionListener(event -> {
+            if(XJFileChooser.shared().displayOpenDialog(getJavaContainer(), false)) {
+                dotToolPathField.setText(XJFileChooser.shared().getSelectedFilePath());
+                AWPrefs.setDOTToolPath(dotToolPathField.getText());
             }
         });
 
@@ -168,17 +160,15 @@ public class AWPrefsDialog extends XJPanel {
     }
 
     public void prepareSyntaxTab() {
-        syntaxDefaultButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                defaultSyntax(AWPrefs.PREF_SYNTAX_PARSER, parserColorPanel, parserBoldButton, parserItalicButton);
-                defaultSyntax(AWPrefs.PREF_SYNTAX_LEXER, lexerColorPanel, lexerBoldButton, lexerItalicButton);
-                defaultSyntax(AWPrefs.PREF_SYNTAX_LABEL, labelColorPanel, labelsBoldButton, labelsItalicButton);
-                defaultSyntax(AWPrefs.PREF_SYNTAX_REFS, refsActionColorPanel, refsActionBoldButton, refsActionItalicButton);
-                defaultSyntax(AWPrefs.PREF_SYNTAX_BLOCK, blockLabelsColorPanel, blockLabelsBoldButton, blockLabelsItalicButton);
-                defaultSyntax(AWPrefs.PREF_SYNTAX_COMMENT, commentsColorPanel, commentsBoldButton, commentsItalicButton);
-                defaultSyntax(AWPrefs.PREF_SYNTAX_STRING, stringsColorPanel, stringsBoldButton, stringsItalicButton);
-                defaultSyntax(AWPrefs.PREF_SYNTAX_KEYWORD, keywordsColorPanel, keywordsBoldButton, keywordsItalicButton);
-            }
+        syntaxDefaultButton.addActionListener(e -> {
+            defaultSyntax(AWPrefs.PREF_SYNTAX_PARSER, parserColorPanel, parserBoldButton, parserItalicButton);
+            defaultSyntax(AWPrefs.PREF_SYNTAX_LEXER, lexerColorPanel, lexerBoldButton, lexerItalicButton);
+            defaultSyntax(AWPrefs.PREF_SYNTAX_LABEL, labelColorPanel, labelsBoldButton, labelsItalicButton);
+            defaultSyntax(AWPrefs.PREF_SYNTAX_REFS, refsActionColorPanel, refsActionBoldButton, refsActionItalicButton);
+            defaultSyntax(AWPrefs.PREF_SYNTAX_BLOCK, blockLabelsColorPanel, blockLabelsBoldButton, blockLabelsItalicButton);
+            defaultSyntax(AWPrefs.PREF_SYNTAX_COMMENT, commentsColorPanel, commentsBoldButton, commentsItalicButton);
+            defaultSyntax(AWPrefs.PREF_SYNTAX_STRING, stringsColorPanel, stringsBoldButton, stringsItalicButton);
+            defaultSyntax(AWPrefs.PREF_SYNTAX_KEYWORD, keywordsColorPanel, keywordsBoldButton, keywordsItalicButton);
         });
 
         bindSyntax(AWPrefs.PREF_SYNTAX_PARSER, parserColorPanel, parserBoldButton, parserItalicButton);
@@ -192,44 +182,34 @@ public class AWPrefsDialog extends XJPanel {
     }
 
     public void prepareCompilerTab() {
-        javacCustomPathButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                javacPathField.setEnabled(javacCustomPathButton.isSelected());
-                browseJavacPath.setEnabled(javacCustomPathButton.isSelected());
+        javacCustomPathButton.addActionListener(e -> {
+            javacPathField.setEnabled(javacCustomPathButton.isSelected());
+            browseJavacPath.setEnabled(javacCustomPathButton.isSelected());
+        });
+
+        browseJavacPath.addActionListener(event -> {
+            if(XJFileChooser.shared().displayChooseDirectory(getJavaContainer())) {
+                javacPathField.setText(XJFileChooser.shared().getSelectedFilePath());
+                AWPrefs.setJavaCPath(javacPathField.getText());
             }
         });
 
-        browseJavacPath.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(XJFileChooser.shared().displayChooseDirectory(getJavaContainer())) {
-                    javacPathField.setText(XJFileChooser.shared().getSelectedFilePath());
-                    AWPrefs.setJavaCPath(javacPathField.getText());
-                }
+        browseJikesPath.addActionListener(event -> {
+            if(XJFileChooser.shared().displayChooseDirectory(getJavaContainer())) {
+                jikesPathField.setText(XJFileChooser.shared().getSelectedFilePath());
+                AWPrefs.setJikesPath(jikesPathField.getText());
             }
         });
 
-        browseJikesPath.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(XJFileChooser.shared().displayChooseDirectory(getJavaContainer())) {
-                    jikesPathField.setText(XJFileChooser.shared().getSelectedFilePath());
-                    AWPrefs.setJikesPath(jikesPathField.getText());
-                }
-            }
+        classpathCustomButton.addActionListener(event -> {
+            customClasspathField.setEnabled(classpathCustomButton.isSelected());
+            browseCustomClassPathButton.setEnabled(classpathCustomButton.isSelected());
         });
 
-        classpathCustomButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                customClasspathField.setEnabled(classpathCustomButton.isSelected());
-                browseCustomClassPathButton.setEnabled(classpathCustomButton.isSelected());
-            }
-        });
-
-        browseCustomClassPathButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(XJFileChooser.shared().displayChooseDirectory(getJavaContainer())) {
-                    customClasspathField.setText(XJFileChooser.shared().getSelectedFilePath());
-                    AWPrefs.setCustomClassPath(customClasspathField.getText());
-                }
+        browseCustomClassPathButton.addActionListener(event -> {
+            if(XJFileChooser.shared().displayChooseDirectory(getJavaContainer())) {
+                customClasspathField.setText(XJFileChooser.shared().getSelectedFilePath());
+                AWPrefs.setCustomClassPath(customClasspathField.getText());
             }
         });
 
@@ -276,20 +256,14 @@ public class AWPrefsDialog extends XJPanel {
     }
 
     public void prepareUpdateTab() {
-        browseUpdateDownloadPathButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if(XJFileChooser.shared().displayChooseDirectory(getJavaContainer())) {
-                    downloadPathField.setText(XJFileChooser.shared().getSelectedFilePath());
-                    AWPrefs.setDownloadPath(downloadPathField.getText());
-                }
+        browseUpdateDownloadPathButton.addActionListener(event -> {
+            if(XJFileChooser.shared().displayChooseDirectory(getJavaContainer())) {
+                downloadPathField.setText(XJFileChooser.shared().getSelectedFilePath());
+                AWPrefs.setDownloadPath(downloadPathField.getText());
             }
         });
 
-        checkForUpdatesButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                HelpManager.checkUpdates(getJavaContainer(), false);
-            }
-        });
+        checkForUpdatesButton.addActionListener(event -> HelpManager.checkUpdates(getJavaContainer(), false));
 
         getPreferences().bindToPreferences(updateTypeCombo, AWPrefs.PREF_UPDATE_TYPE, AWPrefs.DEFAULT_UPDATE_TYPE);
         getPreferences().bindToPreferences(downloadPathField, AWPrefs.PREF_DOWNLOAD_PATH, AWPrefs.DEFAULT_DOWNLOAD_PATH);
@@ -307,29 +281,21 @@ public class AWPrefsDialog extends XJPanel {
         testTextArea.setFocusable(true);
         testTextArea.requestFocusInWindow();
 
-        testRigLanguageComboBox.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                prepareTestRigTabValues();
+        testRigLanguageComboBox.addActionListener(e -> prepareTestRigTabValues());
+
+        testRigDefaultRadio.addActionListener(e -> {
+            if (testRigDefaultRadio.isSelected()) {
+                testTextArea.setEnabled(false);
+            } else {
+                testTextArea.setEnabled(true);
             }
         });
 
-        testRigDefaultRadio.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                if (testRigDefaultRadio.isSelected()) {
-                    testTextArea.setEnabled(false);
-                } else {
-                    testTextArea.setEnabled(true);
-                }
-            }
-        });
-
-        testRigTextRadio.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                if (testRigDefaultRadio.isSelected()) {
-                    testTextArea.setEnabled(false);
-                } else {
-                    testTextArea.setEnabled(true);
-                }
+        testRigTextRadio.addActionListener(e -> {
+            if (testRigDefaultRadio.isSelected()) {
+                testTextArea.setEnabled(false);
+            } else {
+                testTextArea.setEnabled(true);
             }
         });
 

@@ -158,11 +158,7 @@ public class XJTabbedPane extends JPanel {
 
             JPopupMenu popup = new JPopupMenu();
             JMenuItem item = new JMenuItem("Close");
-            item.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    removeComponent(getSelectedComponent());
-                }
-            });
+            item.addActionListener(event1 -> removeComponent(getSelectedComponent()));
             popup.add(item);
             popup.show(event.getComponent(), event.getX(), event.getY());
         }

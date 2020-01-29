@@ -89,29 +89,13 @@ public class STWindowToolbar {
     }
 
     public void addActions() {
-        backward.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                getSelectedEditor().goToBackward();
-            }
-        });
+        backward.addActionListener(e -> getSelectedEditor().goToBackward());
 
-        forward.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                getSelectedEditor().goToForward();
-            }
-        });
+        forward.addActionListener(e -> getSelectedEditor().goToForward());
 
-        sort.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                getSelectedEditor().toggleRulesSorting();
-            }
-        });
+        sort.addActionListener(e -> getSelectedEditor().toggleRulesSorting());
 
-        find.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                getSelectedEditor().find();
-            }
-        });
+        find.addActionListener(e -> getSelectedEditor().find());
 
     }
 
